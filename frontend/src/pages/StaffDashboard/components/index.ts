@@ -1,0 +1,5 @@
+export { default as StaffHeader } from './StaffHeader'
+export { default as StaffNavigation } from './StaffNavigation'
+export { default as CoursesTab } from './CoursesTab'
+export { default as StudentsTab } from './StudentsTab'
+export { default as CourseModal } from './CourseModal'
