@@ -57,6 +57,7 @@ export type Course = {
     level: string
     price: string
     image: string
+    videoUrl?: string
     students: number
     rating: number
 }
@@ -68,6 +69,7 @@ export type CourseFormData = {
     level: string
     price: string
     image: string
+    videoUrl: string
 }
 
 // Enrollment Types

@@ -6,13 +6,15 @@ type CourseCardProps = {
     isEnrolled?: boolean
     isEnrolling?: boolean
     onEnroll?: (course: Course) => void | Promise<void>
+    onClick?: (course: Course) => void
 }
 
 export default function CourseCard({
     course,
     isEnrolled = false,
     isEnrolling = false,
-    onEnroll
+    onEnroll,
+    onClick
 }: CourseCardProps) {
     const getBadgeColor = (level: string) => {
         switch (level) {
@@ -27,14 +29,24 @@ export default function CourseCard({
         }
     }
 
-    const handleEnrollClick = () => {
+    const handleEnrollClick = (e: React.MouseEvent) => {
+        e.stopPropagation()
         if (onEnroll && !isEnrolled && !isEnrolling) {
             onEnroll(course)
         }
     }
 
+    const handleCardClick = () => {
+        if (onClick) {
+            onClick(course)
+        }
+    }
+
     return (
-        <div className={`bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-blue-200 ${isEnrolled ? 'border-green-300 ring-2 ring-green-100' : ''}`}>
+        <div
+            className={`bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-blue-200 ${isEnrolled ? 'border-green-300 ring-2 ring-green-100' : ''} ${onClick ? 'cursor-pointer' : ''}`}
+            onClick={handleCardClick}
+        >
             <div className="relative h-44 overflow-hidden">
                 <img
                     src={getImageUrl(course.image)}
@@ -48,6 +60,13 @@ export default function CourseCard({
                 <span className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white ${getBadgeColor(course.level)}`}>
                     {course.level}
                 </span>
+                {onClick && (
+                    <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
+                        <span className="bg-white/90 px-4 py-2 rounded-full text-sm font-medium text-gray-800 shadow-lg">
+                            <i className="bi bi-eye me-2"></i>View Details
+                        </span>
+                    </div>
+                )}
             </div>
 
             <div className="p-5">

@@ -37,16 +37,16 @@ export default function StaffTab({
                 <table className="data-table">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>S.No</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredStaff.map((s: Staff) => (
+                        {filteredStaff.map((s: Staff, index: number) => (
                             <tr key={getId(s)}>
-                                <td>{getId(s)}</td>
+                                <td>{index + 1}</td>
                                 <td>{s.firstName} {s.lastName}</td>
                                 <td>{s.email}</td>
                                 <td className="action-buttons">

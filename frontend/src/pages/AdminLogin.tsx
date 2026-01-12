@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useAdminLogin } from '../hooks/api'
 import { SuccessDisplay, InlineError } from '../components/ui/ErrorDisplay'
@@ -86,7 +86,15 @@ export default function AdminLogin() {
                 </div>
 
                 <div>
-                    <label className="form-label">Password</label>
+                    <div className="flex items-center justify-between mb-1">
+                        <label className="form-label mb-0">Password</label>
+                        <Link
+                            to="/forgot-password?type=admin"
+                            className="text-sm text-red-600 hover:text-red-800 hover:underline"
+                        >
+                            Forgot Password?
+                        </Link>
+                    </div>
                     <input
                         {...register('password', {
                             required: 'Password is required',

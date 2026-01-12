@@ -73,6 +73,24 @@ export const useCreateEnrollment = () => {
     })
 }
 
+// Hook to delete/unenroll from a course
+export const useDeleteEnrollment = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async (enrollmentId: string | number) => {
+            return fetchWithErrorHandling(`${API_URL}/enrollments/${enrollmentId}`, {
+                method: 'DELETE'
+            })
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['enrollments'] })
+            queryClient.invalidateQueries({ queryKey: ['courses'] })
+        },
+        retry: 1,
+    })
+}
+
 // Hook to check if student is already enrolled in a course
 export const useCheckEnrollment = (studentId: string | undefined, courseId: string | undefined) => {
     return useQuery({

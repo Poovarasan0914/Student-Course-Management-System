@@ -6,6 +6,8 @@ export interface IUser {
     lastName: string;
     email: string;
     password: string;
+    resetPasswordToken?: string;
+    resetPasswordExpiry?: Date;
 }
 
 // Admin Types
@@ -33,6 +35,7 @@ export interface ICourse {
     level: 'Beginner' | 'Intermediate' | 'Advanced';
     price: string;
     image: string;
+    videoUrl?: string;
     students: number;
     rating: number;
 }

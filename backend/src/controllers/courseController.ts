@@ -2,9 +2,6 @@ import { Request, Response } from 'express';
 import Course from '../models/Course';
 import { AuthRequest } from '../types';
 
-// @desc    Get all courses
-// @route   GET /api/courses
-// @access  Public
 export const getCourses = async (req: Request, res: Response): Promise<void> => {
     try {
         const courses = await Course.find();
@@ -14,9 +11,6 @@ export const getCourses = async (req: Request, res: Response): Promise<void> => 
     }
 };
 
-// @desc    Get all courses for admin
-// @route   GET /api/courses/all
-// @access  Private/Admin
 export const getAllCourses = async (req: Request, res: Response): Promise<void> => {
     try {
         const courses = await Course.find();
@@ -26,9 +20,7 @@ export const getAllCourses = async (req: Request, res: Response): Promise<void> 
     }
 };
 
-// @desc    Get course by ID
-// @route   GET /api/courses/:id
-// @access  Public
+
 export const getCourseById = async (req: Request, res: Response): Promise<void> => {
     try {
         const course = await Course.findById(req.params.id);
@@ -42,12 +34,10 @@ export const getCourseById = async (req: Request, res: Response): Promise<void> 
     }
 };
 
-// @desc    Create course
-// @route   POST /api/courses
-// @access  Private/Staff
+
 export const createCourse = async (req: AuthRequest, res: Response): Promise<void> => {
     try {
-        const { title, description, duration, level, price, image } = req.body;
+        const { title, description, duration, level, price, image, videoUrl } = req.body;
 
         const course = await Course.create({
             title,
@@ -57,7 +47,8 @@ export const createCourse = async (req: AuthRequest, res: Response): Promise<voi
             duration,
             level,
             price,
-            image: image || ''
+            image: image || '',
+            videoUrl: videoUrl || ''
         });
 
         res.status(201).json(course);
@@ -66,9 +57,6 @@ export const createCourse = async (req: AuthRequest, res: Response): Promise<voi
     }
 };
 
-// @desc    Update course
-// @route   PUT /api/courses/:id
-// @access  Private/Staff or Admin
 export const updateCourse = async (req: AuthRequest, res: Response): Promise<void> => {
     try {
         const course = await Course.findById(req.params.id);
@@ -90,6 +78,7 @@ export const updateCourse = async (req: AuthRequest, res: Response): Promise<voi
         course.level = req.body.level || course.level;
         course.price = req.body.price || course.price;
         course.image = req.body.image || course.image;
+        course.videoUrl = req.body.videoUrl !== undefined ? req.body.videoUrl : course.videoUrl;
 
         const updatedCourse = await course.save();
         res.json(updatedCourse);
@@ -98,9 +87,7 @@ export const updateCourse = async (req: AuthRequest, res: Response): Promise<voi
     }
 };
 
-// @desc    Delete course
-// @route   DELETE /api/courses/:id
-// @access  Private/Staff or Admin
+
 export const deleteCourse = async (req: AuthRequest, res: Response): Promise<void> => {
     try {
         const course = await Course.findById(req.params.id);
@@ -123,9 +110,6 @@ export const deleteCourse = async (req: AuthRequest, res: Response): Promise<voi
     }
 };
 
-// @desc    Get courses by instructor
-// @route   GET /api/courses/instructor
-// @access  Private/Staff
 export const getCoursesByInstructor = async (req: AuthRequest, res: Response): Promise<void> => {
     try {
         const courses = await Course.find({ instructorId: req.user?._id });

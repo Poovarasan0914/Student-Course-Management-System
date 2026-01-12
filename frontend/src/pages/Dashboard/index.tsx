@@ -1,15 +1,19 @@
+import { useState } from 'react'
 import { useStudentDashboard } from './hooks/useStudentDashboard'
 import Toast from '../../components/ui/Toast'
 import {
     StudentHeader,
-    CoursesGrid
+    CoursesGrid,
+    CourseDetailModal
 } from './components'
+import type { Course } from '../../types'
 
 export default function Dashboard() {
     const {
         // State
         user,
         enrollingCourseId,
+        unenrollingCourseId,
         enrollmentMessage,
         isLoading,
         fetchError,
@@ -21,9 +25,28 @@ export default function Dashboard() {
         // Handlers
         handleLogout,
         handleEnroll,
+        handleUnenroll,
         checkIsEnrolled,
         clearEnrollmentMessage
     } = useStudentDashboard()
+
+    const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
+
+    const handleCourseClick = (course: Course) => {
+        setSelectedCourse(course)
+    }
+
+    const handleCloseModal = () => {
+        setSelectedCourse(null)
+    }
+
+    const handleEnrollFromModal = (course: Course) => {
+        handleEnroll(course)
+    }
+
+    const handleUnenrollFromModal = (course: Course) => {
+        handleUnenroll(course)
+    }
 
     return (
         <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-green-50">
@@ -53,9 +76,23 @@ export default function Dashboard() {
                         enrollingCourseId={enrollingCourseId}
                         checkIsEnrolled={checkIsEnrolled}
                         onEnroll={handleEnroll}
+                        onCourseClick={handleCourseClick}
                     />
                 </section>
             </main>
+
+            {/* Course Detail Modal */}
+            {selectedCourse && (
+                <CourseDetailModal
+                    course={selectedCourse}
+                    isEnrolled={checkIsEnrolled(selectedCourse.id || selectedCourse._id)}
+                    isEnrolling={enrollingCourseId === (selectedCourse.id || selectedCourse._id)}
+                    isUnenrolling={unenrollingCourseId === (selectedCourse.id || selectedCourse._id)}
+                    onClose={handleCloseModal}
+                    onEnroll={handleEnrollFromModal}
+                    onUnenroll={handleUnenrollFromModal}
+                />
+            )}
         </div>
     )
 }

@@ -39,16 +39,16 @@ export default function EnrollmentsTab({
                 <table className="data-table">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>S.No</th>
                             <th>Student</th>
                             <th>Course</th>
                             <th>Enrolled At</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredEnrollments.map((enrollment: Enrollment) => (
+                        {filteredEnrollments.map((enrollment: Enrollment, index: number) => (
                             <tr key={getId(enrollment)}>
-                                <td>{getId(enrollment)}</td>
+                                <td>{index + 1}</td>
                                 <td>{getStudentName(enrollment.studentId, students)}</td>
                                 <td>{getCourseName(enrollment.courseId, courses)}</td>
                                 <td>{new Date(enrollment.enrolledAt).toLocaleDateString()}</td>

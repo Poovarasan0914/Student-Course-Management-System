@@ -2,10 +2,8 @@ import { Request, Response } from 'express';
 import Enrollment from '../models/Enrollment';
 import Course from '../models/Course';
 import { AuthRequest } from '../types';
+import { sendEmail, enrollmentEmailTemplate, enrollmentEmailSubject } from '../utils/email';
 
-// @desc    Get all enrollments
-// @route   GET /api/enrollments
-// @access  Private/Admin
 export const getEnrollments = async (req: Request, res: Response): Promise<void> => {
     try {
         const enrollments = await Enrollment.find();
@@ -15,30 +13,11 @@ export const getEnrollments = async (req: Request, res: Response): Promise<void>
     }
 };
 
-// @desc    Get enrollment by ID
-// @route   GET /api/enrollments/:id
-// @access  Private
-export const getEnrollmentById = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const enrollment = await Enrollment.findById(req.params.id);
-        if (enrollment) {
-            res.json(enrollment);
-        } else {
-            res.status(404).json({ message: 'Enrollment not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: (error as Error).message });
-    }
-};
-
-// @desc    Create enrollment
-// @route   POST /api/enrollments
-// @access  Private/Student
 export const createEnrollment = async (req: AuthRequest, res: Response): Promise<void> => {
     try {
         const { courseId } = req.body;
 
-        // Get course details
+        // Get course
         const course = await Course.findById(courseId);
         if (!course) {
             res.status(404).json({ message: 'Course not found' });
@@ -69,9 +48,36 @@ export const createEnrollment = async (req: AuthRequest, res: Response): Promise
             status: 'active'
         });
 
-        // Update course student count
         course.students = (course.students || 0) + 1;
         await course.save();
+
+        // Send enrollment confirmation email (non-blocking)
+        if (req.user?.email) {
+            console.log(`[ENROLLMENT] Enrollment created for student: ${req.user.email}`);
+            console.log('[ENROLLMENT] Triggering enrollment confirmation email...');
+
+            sendEmail({
+                to: req.user.email,
+                subject: enrollmentEmailSubject(course.title),
+                html: enrollmentEmailTemplate({
+                    studentName: `${req.user?.firstName} ${req.user?.lastName}`,
+                    studentEmail: req.user.email,
+                    courseTitle: course.title,
+                    courseInstructor: course.instructor,
+                    courseLevel: course.level,
+                    courseDuration: course.duration,
+                    enrollmentDate: new Date()
+                })
+            }).then((result) => {
+                if (result.success) {
+                    console.log(`[ENROLLMENT] Confirmation email sent successfully to ${req.user?.email}`);
+                } else {
+                    console.error(`[ENROLLMENT] Confirmation email failed: ${result.error}`);
+                }
+            }).catch((err) => {
+                console.error('[ENROLLMENT] Failed to send enrollment confirmation email:', err);
+            });
+        }
 
         res.status(201).json(enrollment);
     } catch (error) {
@@ -79,46 +85,36 @@ export const createEnrollment = async (req: AuthRequest, res: Response): Promise
     }
 };
 
-// @desc    Update enrollment status
-// @route   PUT /api/enrollments/:id
-// @access  Private/Admin
-export const updateEnrollment = async (req: Request, res: Response): Promise<void> => {
+export const deleteEnrollment = async (req: AuthRequest, res: Response): Promise<void> => {
     try {
         const enrollment = await Enrollment.findById(req.params.id);
 
-        if (enrollment) {
-            enrollment.status = req.body.status || enrollment.status;
-            const updatedEnrollment = await enrollment.save();
-            res.json(updatedEnrollment);
-        } else {
+        if (!enrollment) {
             res.status(404).json({ message: 'Enrollment not found' });
+            return;
         }
+
+        // Verify the enrollment belongs to the requesting student
+        if (enrollment.studentId.toString() !== req.user?._id.toString()) {
+            res.status(403).json({ message: 'Not authorized to unenroll from this course' });
+            return;
+        }
+
+        // Decrease student count in course
+        const course = await Course.findById(enrollment.courseId);
+        if (course && course.students > 0) {
+            course.students = course.students - 1;
+            await course.save();
+        }
+
+        await Enrollment.findByIdAndDelete(req.params.id);
+
+        res.json({ message: 'Successfully unenrolled from the course' });
     } catch (error) {
         res.status(500).json({ message: (error as Error).message });
     }
 };
 
-// @desc    Delete enrollment
-// @route   DELETE /api/enrollments/:id
-// @access  Private/Admin
-export const deleteEnrollment = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const enrollment = await Enrollment.findById(req.params.id);
-
-        if (enrollment) {
-            await enrollment.deleteOne();
-            res.json({ message: 'Enrollment removed' });
-        } else {
-            res.status(404).json({ message: 'Enrollment not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: (error as Error).message });
-    }
-};
-
-// @desc    Get student enrollments
-// @route   GET /api/enrollments/student
-// @access  Private/Student
 export const getStudentEnrollments = async (req: AuthRequest, res: Response): Promise<void> => {
     try {
         const enrollments = await Enrollment.find({ studentId: req.user?._id });
@@ -128,43 +124,11 @@ export const getStudentEnrollments = async (req: AuthRequest, res: Response): Pr
     }
 };
 
-// @desc    Get enrollments by course
-// @route   GET /api/enrollments/course/:courseId
-// @access  Private/Staff or Admin
+
 export const getEnrollmentsByCourse = async (req: Request, res: Response): Promise<void> => {
     try {
         const enrollments = await Enrollment.find({ courseId: req.params.courseId });
         res.json(enrollments);
-    } catch (error) {
-        res.status(500).json({ message: (error as Error).message });
-    }
-};
-
-// @desc    Cancel enrollment
-// @route   PUT /api/enrollments/:id/cancel
-// @access  Private/Student
-export const cancelEnrollment = async (req: AuthRequest, res: Response): Promise<void> => {
-    try {
-        const enrollment = await Enrollment.findOne({
-            _id: req.params.id,
-            studentId: req.user?._id
-        });
-
-        if (enrollment) {
-            enrollment.status = 'cancelled';
-            await enrollment.save();
-
-            // Update course student count
-            const course = await Course.findById(enrollment.courseId);
-            if (course && course.students > 0) {
-                course.students = course.students - 1;
-                await course.save();
-            }
-
-            res.json({ message: 'Enrollment cancelled', enrollment });
-        } else {
-            res.status(404).json({ message: 'Enrollment not found' });
-        }
     } catch (error) {
         res.status(500).json({ message: (error as Error).message });
     }

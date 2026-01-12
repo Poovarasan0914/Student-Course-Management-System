@@ -126,6 +126,21 @@ export default function CourseModal({
                         </div>
                     </div>
 
+                    <div>
+                        <label className="form-label">Video URL</label>
+                        <input
+                            type="url"
+                            name="videoUrl"
+                            value={courseForm.videoUrl}
+                            onChange={onFormChange}
+                            placeholder="https://www.youtube.com/watch?v=... or video file URL"
+                            className="form-input"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                            Supports YouTube, Vimeo, or direct video file URLs (mp4, webm)
+                        </p>
+                    </div>
+
                     <div className="flex justify-end gap-3 pt-4">
                         <Button type="button" variant="secondary" onClick={onClose}>
                             Cancel

@@ -11,6 +11,7 @@ interface CoursesGridProps {
     enrollingCourseId: string | number | null
     checkIsEnrolled: (courseId: string | number | undefined) => boolean
     onEnroll: (course: Course) => void
+    onCourseClick?: (course: Course) => void
 }
 
 export default function CoursesGrid({
@@ -19,7 +20,8 @@ export default function CoursesGrid({
     error,
     enrollingCourseId,
     checkIsEnrolled,
-    onEnroll
+    onEnroll,
+    onCourseClick
 }: CoursesGridProps) {
     if (isLoading) {
         return <SkeletonGrid count={8} />
@@ -49,6 +51,7 @@ export default function CoursesGrid({
                         isEnrolled={checkIsEnrolled(courseId)}
                         isEnrolling={enrollingCourseId === courseId}
                         onEnroll={onEnroll}
+                        onClick={onCourseClick}
                     />
                 )
             })}

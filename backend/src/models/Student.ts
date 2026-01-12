@@ -32,12 +32,19 @@ const studentSchema = new Schema<IStudentDocument>({
     acceptTerms: {
         type: Boolean,
         default: false
+    },
+    resetPasswordToken: {
+        type: String,
+        default: undefined
+    },
+    resetPasswordExpiry: {
+        type: Date,
+        default: undefined
     }
 }, {
     timestamps: true
 });
 
-// Hash password before saving
 studentSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         next();
@@ -46,7 +53,6 @@ studentSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Compare password method
 studentSchema.methods.matchPassword = async function (enteredPassword: string): Promise<boolean> {
     return await bcrypt.compare(enteredPassword, this.password);
 };

@@ -11,10 +11,10 @@ export const protect = async (req: AuthRequest, res: Response, next: NextFunctio
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
-            // Get token from header
+            // Get
             token = req.headers.authorization.split(' ')[1];
 
-            // Verify token
+            // Verify 
             const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 
             // Get user from token based on role
@@ -42,7 +42,7 @@ export const protect = async (req: AuthRequest, res: Response, next: NextFunctio
     }
 };
 
-// Admin only middleware
+
 export const adminOnly = (req: AuthRequest, res: Response, next: NextFunction): void => {
     if (req.userRole === 'admin' || req.userRole === 'superadmin') {
         next();
@@ -51,7 +51,6 @@ export const adminOnly = (req: AuthRequest, res: Response, next: NextFunction): 
     }
 };
 
-// Staff only middleware
 export const staffOnly = (req: AuthRequest, res: Response, next: NextFunction): void => {
     if (req.userRole === 'staff') {
         next();
@@ -60,7 +59,6 @@ export const staffOnly = (req: AuthRequest, res: Response, next: NextFunction): 
     }
 };
 
-// Student only middleware
 export const studentOnly = (req: AuthRequest, res: Response, next: NextFunction): void => {
     if (req.userRole === 'student') {
         next();
@@ -69,7 +67,6 @@ export const studentOnly = (req: AuthRequest, res: Response, next: NextFunction)
     }
 };
 
-// Staff or Admin middleware
 export const staffOrAdmin = (req: AuthRequest, res: Response, next: NextFunction): void => {
     if (req.userRole === 'admin' || req.userRole === 'superadmin' || req.userRole === 'staff') {
         next();

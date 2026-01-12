@@ -75,6 +75,18 @@ export default function EditCourseModal({
                             onChange={(e) => setCourse({ ...course, image: e.target.value })}
                         />
                     </div>
+                    <div className="form-group">
+                        <label>Video URL</label>
+                        <input
+                            type="url"
+                            value={course.videoUrl || ''}
+                            onChange={(e) => setCourse({ ...course, videoUrl: e.target.value })}
+                            placeholder="https://www.youtube.com/watch?v=... or video file URL"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                            Supports YouTube, Vimeo, or direct video file URLs (mp4, webm)
+                        </p>
+                    </div>
                 </div>
                 <div className="modal-actions">
                     <button className="cancel-btn" onClick={onClose}>

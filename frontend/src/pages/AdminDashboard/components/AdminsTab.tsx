@@ -46,16 +46,16 @@ export default function AdminsTab({
                 <table className="data-table">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>S.No</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredAdmins.map((admin: Admin) => (
+                        {filteredAdmins.map((admin: Admin, index: number) => (
                             <tr key={getId(admin)}>
-                                <td>{getId(admin)}</td>
+                                <td>{index + 1}</td>
                                 <td>{admin.firstName} {admin.lastName}</td>
                                 <td>{admin.email}</td>
                                 <td>

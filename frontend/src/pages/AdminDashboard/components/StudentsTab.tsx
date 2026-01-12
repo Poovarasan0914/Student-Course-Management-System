@@ -36,16 +36,16 @@ export default function StudentsTab({
                 <table className="data-table">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>S.No</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredStudents.map((student: Student) => (
+                        {filteredStudents.map((student: Student, index: number) => (
                             <tr key={getId(student)}>
-                                <td>{getId(student)}</td>
+                                <td>{index + 1}</td>
                                 <td>{student.firstName} {student.lastName}</td>
                                 <td>{student.email}</td>
                                 <td>

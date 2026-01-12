@@ -33,12 +33,18 @@ const staffSchema = new Schema<IStaffDocument>({
         type: String,
         required: [true, 'Specialization is required'],
         trim: true
+    },
+    resetPasswordToken: {
+        type: String,
+        default: undefined
+    },
+    resetPasswordExpiry: {
+        type: Date,
+        default: undefined
     }
 }, {
     timestamps: true
 });
-
-// Hash password before saving
 staffSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         next();
@@ -47,7 +53,6 @@ staffSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Compare password method
 staffSchema.methods.matchPassword = async function (enteredPassword: string): Promise<boolean> {
     return await bcrypt.compare(enteredPassword, this.password);
 };

@@ -33,12 +33,19 @@ const adminSchema = new Schema<IAdminDocument>({
         type: String,
         enum: ['admin', 'superadmin'],
         default: 'admin'
+    },
+    resetPasswordToken: {
+        type: String,
+        default: undefined
+    },
+    resetPasswordExpiry: {
+        type: Date,
+        default: undefined
     }
 }, {
     timestamps: true
 });
 
-// Hash password before saving
 adminSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         next();

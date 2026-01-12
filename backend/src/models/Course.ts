@@ -40,6 +40,10 @@ const courseSchema = new Schema<ICourseDocument>({
         type: String,
         default: ''
     },
+    videoUrl: {
+        type: String,
+        default: ''
+    },
     students: {
         type: Number,
         default: 0
