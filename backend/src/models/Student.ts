@@ -32,6 +32,14 @@ const studentSchema = new Schema<IStudentDocument>({
     acceptTerms: {
         type: Boolean,
         default: false
+    },
+    resetPasswordToken: {
+        type: String,
+        default: undefined
+    },
+    resetPasswordExpiry: {
+        type: Date,
+        default: undefined
     }
 }, {
     timestamps: true

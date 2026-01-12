@@ -6,6 +6,8 @@ export interface IUser {
     lastName: string;
     email: string;
     password: string;
+    resetPasswordToken?: string;
+    resetPasswordExpiry?: Date;
 }
 
 // Admin Types

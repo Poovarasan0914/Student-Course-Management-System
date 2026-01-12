@@ -18,7 +18,10 @@ export {
     useStudentLogin,
     useAdminLogin,
     useStaffSignup,
-    useStaffLogin
+    useStaffLogin,
+    useForgotPassword,
+    useResetPassword,
+    useVerifyResetCode
 } from './useAuth'
 
 // Student hooks

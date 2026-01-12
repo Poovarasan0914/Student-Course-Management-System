@@ -33,6 +33,14 @@ const adminSchema = new Schema<IAdminDocument>({
         type: String,
         enum: ['admin', 'superadmin'],
         default: 'admin'
+    },
+    resetPasswordToken: {
+        type: String,
+        default: undefined
+    },
+    resetPasswordExpiry: {
+        type: Date,
+        default: undefined
     }
 }, {
     timestamps: true
