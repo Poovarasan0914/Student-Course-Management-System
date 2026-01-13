@@ -58,7 +58,7 @@ export default function StaffSignup() {
         <AuthLayout
             title="Create Staff Account"
             badge={{ text: "Staff Portal", color: "green" }}
-            gradient="green-blue"
+            linear="green-blue"
             footerLinks={[
                 { text: "Already have a staff account?", linkText: "Sign in", to: "/staff/login", color: "green" },
                 { text: "", linkText: "Student Signup", to: "/signup", color: "blue" }

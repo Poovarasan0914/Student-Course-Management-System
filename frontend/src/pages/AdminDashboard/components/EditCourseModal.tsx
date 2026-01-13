@@ -48,17 +48,6 @@ export default function EditCourseModal({
                             />
                         </div>
                         <div className="form-group">
-                            <label>Level</label>
-                            <select
-                                value={course.level}
-                                onChange={(e) => setCourse({ ...course, level: e.target.value })}
-                            >
-                                <option value="Beginner">Beginner</option>
-                                <option value="Intermediate">Intermediate</option>
-                                <option value="Advanced">Advanced</option>
-                            </select>
-                        </div>
-                        <div className="form-group">
                             <label>Price</label>
                             <input
                                 type="text"

@@ -58,20 +58,6 @@ export const formatDate = (date: string | Date): string => {
     return new Date(date).toLocaleDateString()
 }
 
-// Get level badge color class
-export const getLevelBadgeClass = (level: string): string => {
-    switch (level) {
-        case 'Beginner':
-            return 'bg-green-600'
-        case 'Intermediate':
-            return 'bg-amber-500'
-        case 'Advanced':
-            return 'bg-red-600'
-        default:
-            return 'bg-gray-600'
-    }
-}
-
 // Get student name by ID
 export const getStudentName = (studentId: string | number, students: Student[]): string => {
     const student = students.find((s: Student) => getId(s) === studentId)

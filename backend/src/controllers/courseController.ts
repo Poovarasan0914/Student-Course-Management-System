@@ -37,7 +37,7 @@ export const getCourseById = async (req: Request, res: Response): Promise<void> 
 
 export const createCourse = async (req: AuthRequest, res: Response): Promise<void> => {
     try {
-        const { title, description, duration, level, price, image, videoUrl } = req.body;
+        const { title, description, duration, price, image, videoUrl } = req.body;
 
         const course = await Course.create({
             title,
@@ -45,7 +45,6 @@ export const createCourse = async (req: AuthRequest, res: Response): Promise<voi
             instructor: `${req.user?.firstName} ${req.user?.lastName}`,
             instructorId: req.user?._id,
             duration,
-            level,
             price,
             image: image || '',
             videoUrl: videoUrl || ''
@@ -75,7 +74,6 @@ export const updateCourse = async (req: AuthRequest, res: Response): Promise<voi
         course.title = req.body.title || course.title;
         course.description = req.body.description || course.description;
         course.duration = req.body.duration || course.duration;
-        course.level = req.body.level || course.level;
         course.price = req.body.price || course.price;
         course.image = req.body.image || course.image;
         course.videoUrl = req.body.videoUrl !== undefined ? req.body.videoUrl : course.videoUrl;

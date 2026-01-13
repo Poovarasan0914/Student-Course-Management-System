@@ -9,7 +9,7 @@ type AuthLayoutProps = {
         text: string
         color: 'blue' | 'green' | 'red'
     }
-    gradient?: 'blue-green' | 'green-blue' | 'red-blue'
+    linear?: 'blue-green' | 'green-blue' | 'red-blue'
     footerLinks?: Array<{
         text: string
         linkText: string
@@ -23,10 +23,10 @@ export default function AuthLayout({
     title,
     subtitle,
     badge,
-    gradient = 'blue-green',
+    linear = 'blue-green',
     footerLinks = []
 }: AuthLayoutProps) {
-    const gradientClasses = {
+    const linearClasses = {
         'blue-green': 'from-blue-50 via-white to-green-50',
         'green-blue': 'from-green-50 via-white to-blue-50',
         'red-blue': 'from-red-50 via-white to-blue-50'
@@ -44,7 +44,7 @@ export default function AuthLayout({
     }
 
     return (
-        <div className={`min-h-screen flex items-center justify-center bg-linear-to-br ${gradientClasses[gradient]} p-4`}>
+        <div className={`min-h-screen flex items-center justify-center bg-linear-to-br ${linearClasses[linear]} p-4`}>
             <div className="w-full max-w-md bg-white rounded-2xl p-10 shadow-xl border border-gray-100">
                 {badge && (
                     <div className="text-center mb-4">

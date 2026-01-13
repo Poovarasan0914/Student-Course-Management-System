@@ -16,19 +16,6 @@ export default function CourseCard({
     onEnroll,
     onClick
 }: CourseCardProps) {
-    const getBadgeColor = (level: string) => {
-        switch (level) {
-            case 'Beginner':
-                return 'bg-gradient-to-r from-emerald-500 to-emerald-600'
-            case 'Intermediate':
-                return 'bg-gradient-to-r from-amber-500 to-amber-600'
-            case 'Advanced':
-                return 'bg-gradient-to-r from-red-500 to-red-600'
-            default:
-                return 'bg-gradient-to-r from-emerald-500 to-emerald-600'
-        }
-    }
-
     const handleEnrollClick = (e: React.MouseEvent) => {
         e.stopPropagation()
         if (onEnroll && !isEnrolled && !isEnrolling) {
@@ -57,9 +44,6 @@ export default function CourseCard({
                         target.src = PLACEHOLDER_IMAGE
                     }}
                 />
-                <span className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white ${getBadgeColor(course.level)}`}>
-                    {course.level}
-                </span>
                 {onClick && (
                     <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
                         <span className="bg-white/90 px-4 py-2 rounded-full text-sm font-medium text-gray-800 shadow-lg">

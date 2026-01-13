@@ -84,23 +84,6 @@ export default function CourseModal({
                         </div>
 
                         <div>
-                            <label className="form-label">Level</label>
-                            <select
-                                name="level"
-                                value={courseForm.level}
-                                onChange={onFormChange}
-                                className="form-input"
-                                required
-                            >
-                                <option value="Beginner">Beginner</option>
-                                <option value="Intermediate">Intermediate</option>
-                                <option value="Advanced">Advanced</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
                             <label className="form-label">Price</label>
                             <input
                                 type="text"
@@ -112,7 +95,9 @@ export default function CourseModal({
                                 required
                             />
                         </div>
+                    </div>
 
+                    <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="form-label">Image URL</label>
                             <input
@@ -124,20 +109,23 @@ export default function CourseModal({
                                 className="form-input"
                             />
                         </div>
+
+                        <div>
+                            <label className="form-label">Video URL</label>
+                            <input
+                                type="url"
+                                name="videoUrl"
+                                value={courseForm.videoUrl}
+                                onChange={onFormChange}
+                                placeholder="https://www.youtube.com/watch?v=... or video file URL"
+                                className="form-input"
+                            />
+                        </div>
                     </div>
 
                     <div>
-                        <label className="form-label">Video URL</label>
-                        <input
-                            type="url"
-                            name="videoUrl"
-                            value={courseForm.videoUrl}
-                            onChange={onFormChange}
-                            placeholder="https://www.youtube.com/watch?v=... or video file URL"
-                            className="form-input"
-                        />
                         <p className="text-xs text-gray-500 mt-1">
-                            Supports YouTube, Vimeo, or direct video file URLs (mp4, webm)
+                            Video URL supports YouTube, Vimeo, or direct video file URLs (mp4, webm)
                         </p>
                     </div>
 

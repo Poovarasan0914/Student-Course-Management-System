@@ -27,11 +27,6 @@ const courseSchema = new Schema<ICourseDocument>({
         type: String,
         required: [true, 'Course duration is required']
     },
-    level: {
-        type: String,
-        enum: ['Beginner', 'Intermediate', 'Advanced'],
-        required: [true, 'Course level is required']
-    },
     price: {
         type: String,
         required: [true, 'Course price is required']

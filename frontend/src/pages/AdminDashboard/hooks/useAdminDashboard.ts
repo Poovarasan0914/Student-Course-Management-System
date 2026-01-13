@@ -149,7 +149,6 @@ export function useAdminDashboard() {
                 description: editingCourse.description,
                 instructor: editingCourse.instructor,
                 duration: editingCourse.duration,
-                level: editingCourse.level,
                 price: editingCourse.price,
                 image: editingCourse.image,
                 students: editingCourse.students || 0,

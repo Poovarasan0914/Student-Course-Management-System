@@ -60,7 +60,7 @@ export function useStudentDashboard() {
 
     const getEnrollmentForCourse = (courseId: string | number | undefined): Enrollment | undefined => {
         if (!courseId) return undefined
-        return enrollments.find((e: Enrollment) => 
+        return enrollments.find((e: Enrollment) =>
             String(e.courseId) === String(courseId)
         )
     }
@@ -92,7 +92,6 @@ export function useStudentDashboard() {
                 courseTitle: course.title,
                 courseInstructor: course.instructor,
                 coursePrice: course.price,
-                courseLevel: course.level,
                 courseDuration: course.duration,
                 studentId: userId,
                 studentName: `${user.firstName} ${user.lastName}`,

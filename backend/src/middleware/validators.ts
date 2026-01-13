@@ -55,7 +55,7 @@ export const validateLogin = (req: Request, res: Response, next: NextFunction): 
 };
 
 export const validateCourse = (req: Request, res: Response, next: NextFunction): void => {
-    const { title, description, duration, level, price } = req.body;
+    const { title, description, duration, price } = req.body;
 
     const errors: string[] = [];
 
@@ -69,10 +69,6 @@ export const validateCourse = (req: Request, res: Response, next: NextFunction):
 
     if (!duration || duration.trim() === '') {
         errors.push('Course duration is required');
-    }
-
-    if (!level) {
-        errors.push('Course level is required');
     }
 
     if (!price) {

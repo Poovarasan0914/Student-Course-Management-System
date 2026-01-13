@@ -33,7 +33,7 @@ export const passwordResetEmailTemplate = (data: PasswordResetEmailData): string
                 <table role="presentation" style="width: 600px; border-collapse: collapse; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     <!-- Header -->
                     <tr>
-                        <td style="padding: 40px 40px 20px; text-align: center; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); border-radius: 12px 12px 0 0;">
+                        <td style="padding: 40px 40px 20px; text-align: center; background: linear-linear(135deg, #e74c3c 0%, #c0392b 100%); border-radius: 12px 12px 0 0;">
                             <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 600;">
                                 🔐 ${platformConfig.name}
                             </h1>
@@ -58,7 +58,7 @@ export const passwordResetEmailTemplate = (data: PasswordResetEmailData): string
                             
                             <!-- OTP Code Box -->
                             <div style="text-align: center; margin: 30px 0;">
-                                <div style="display: inline-block; padding: 20px 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                                <div style="display: inline-block; padding: 20px 40px; background: linear-linear(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
                                     <span style="font-size: 36px; font-weight: 700; letter-spacing: 8px; color: #ffffff; font-family: 'Courier New', monospace;">
                                         ${resetCode}
                                     </span>

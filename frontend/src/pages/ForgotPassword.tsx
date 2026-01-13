@@ -24,7 +24,7 @@ const getUserTypeConfig = (userType: UserType) => {
         student: {
             title: 'Reset Password',
             subtitle: 'Student account recovery',
-            gradient: 'blue-green' as const,
+            linear: 'blue-green' as const,
             color: 'blue' as const,
             linkColor: 'blue' as const,
             loginPath: '/login',
@@ -34,7 +34,7 @@ const getUserTypeConfig = (userType: UserType) => {
             title: 'Reset Password',
             subtitle: 'Staff account recovery',
             badge: { text: 'Staff Portal', color: 'green' as const },
-            gradient: 'green-blue' as const,
+            linear: 'green-blue' as const,
             color: 'green' as const,
             linkColor: 'green' as const,
             loginPath: '/staff/login',
@@ -44,7 +44,7 @@ const getUserTypeConfig = (userType: UserType) => {
             title: 'Reset Password',
             subtitle: 'Admin account recovery',
             badge: { text: 'Admin Portal', color: 'red' as const },
-            gradient: 'red-blue' as const,
+            linear: 'red-blue' as const,
             color: 'red' as const,
             linkColor: 'blue' as const, // Footer link only supports blue/green
             loginPath: '/admin/login',
@@ -133,7 +133,7 @@ export default function ForgotPassword() {
             title={config.title}
             subtitle={config.subtitle}
             badge={'badge' in config ? config.badge : undefined}
-            gradient={config.gradient}
+            linear={config.linear}
             footerLinks={[
                 { text: '', linkText: config.loginText, to: config.loginPath, color: config.linkColor }
             ]}

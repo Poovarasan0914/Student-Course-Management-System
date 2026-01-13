@@ -52,7 +52,6 @@ export const useCreateEnrollment = () => {
             courseTitle?: string
             courseInstructor?: string
             coursePrice?: string
-            courseLevel?: string
             courseDuration?: string
             studentId?: string | number | undefined
             studentName?: string

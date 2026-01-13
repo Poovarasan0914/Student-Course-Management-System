@@ -21,10 +21,7 @@ const enrollmentSchema = new Schema<IEnrollmentDocument>({
         type: String,
         required: true
     },
-    courseLevel: {
-        type: String,
-        required: true
-    },
+
     courseDuration: {
         type: String,
         required: true

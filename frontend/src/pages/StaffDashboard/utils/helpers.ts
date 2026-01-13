@@ -5,6 +5,5 @@ export {
     getImageUrl,
     getEnrolledStudentsForCourse,
     getUniqueStudentCount,
-    formatDate,
-    getLevelBadgeClass
+    formatDate
 } from '../../../utils/helpers'

@@ -51,7 +51,7 @@ export default function StaffLogin() {
             title="Staff Sign In"
             subtitle="Access your instructor dashboard"
             badge={{ text: "Staff Portal", color: "green" }}
-            gradient="green-blue"
+            linear="green-blue"
             footerLinks={[
                 { text: "Don't have a staff account?", linkText: "Register as Staff", to: "/staff/signup", color: "green" },
                 { text: "", linkText: "Student Login", to: "/login", color: "blue" }

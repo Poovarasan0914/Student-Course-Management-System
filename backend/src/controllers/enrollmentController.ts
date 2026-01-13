@@ -40,7 +40,6 @@ export const createEnrollment = async (req: AuthRequest, res: Response): Promise
             courseTitle: course.title,
             courseInstructor: course.instructor,
             coursePrice: course.price,
-            courseLevel: course.level,
             courseDuration: course.duration,
             studentId: req.user?._id,
             studentName: `${req.user?.firstName} ${req.user?.lastName}`,
@@ -64,7 +63,6 @@ export const createEnrollment = async (req: AuthRequest, res: Response): Promise
                     studentEmail: req.user.email,
                     courseTitle: course.title,
                     courseInstructor: course.instructor,
-                    courseLevel: course.level,
                     courseDuration: course.duration,
                     enrollmentDate: new Date()
                 })

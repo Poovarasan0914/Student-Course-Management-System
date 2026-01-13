@@ -32,7 +32,7 @@ export const welcomeEmailTemplate = (data: WelcomeEmailData): string => {
                 <table role="presentation" style="width: 600px; border-collapse: collapse; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     <!-- Header -->
                     <tr>
-                        <td style="padding: 40px 40px 20px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px 12px 0 0;">
+                        <td style="padding: 40px 40px 20px; text-align: center; background: linear-linear(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px 12px 0 0;">
                             <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 600;">
                                 🎓 ${platformConfig.name}
                             </h1>
@@ -60,7 +60,7 @@ export const welcomeEmailTemplate = (data: WelcomeEmailData): string => {
                                 <tr>
                                     <td align="center">
                                         <a href="${loginUrl}" 
-                                           style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; font-size: 16px; font-weight: 600; border-radius: 8px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
+                                           style="display: inline-block; padding: 16px 40px; background: linear-linear(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; font-size: 16px; font-weight: 600; border-radius: 8px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
                                             Login to Your Account
                                         </a>
                                     </td>

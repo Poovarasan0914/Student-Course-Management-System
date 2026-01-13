@@ -51,7 +51,7 @@ export default function AdminLogin() {
             title="Admin Sign In"
             subtitle="Access the administration dashboard"
             badge={{ text: "Admin Portal", color: "red" }}
-            gradient="red-blue"
+            linear="red-blue"
             footerLinks={[
                 { text: "", linkText: "Student Login", to: "/login", color: "blue" },
                 { text: "", linkText: "Staff Login", to: "/staff/login", color: "green" }

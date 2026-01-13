@@ -58,7 +58,7 @@ export default function Signup() {
     return (
         <AuthLayout
             title="Create an account"
-            gradient="blue-green"
+            linear="blue-green"
             footerLinks={[
                 { text: "Already have an account?", linkText: "Sign in", to: "/login", color: "blue" },
                 { text: "", linkText: "Register as Staff", to: "/staff/signup", color: "green" }

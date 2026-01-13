@@ -50,7 +50,7 @@ export default function Login() {
         <AuthLayout
             title="Welcome Back"
             subtitle="Sign in to your account"
-            gradient="blue-green"
+            linear="blue-green"
             footerLinks={[
                 { text: "Don't have an account?", linkText: "Create one", to: "/signup", color: "blue" },
                 { text: "", linkText: "Staff Login", to: "/staff/login", color: "green" }

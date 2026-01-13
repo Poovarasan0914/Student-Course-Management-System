@@ -52,7 +52,6 @@ export default function CoursesTab({
                             <p className="description">{course.description}</p>
                             <div className="course-meta">
                                 <span className="duration">{course.duration}</span>
-                                <span className="level">{course.level}</span>
                                 <span className="price">${course.price}</span>
                             </div>
                         </div>

@@ -72,7 +72,6 @@ export default function DashboardOverview({
                     courses={courses}
                     enrollments={enrollments}
                 />
-                <CourseLevelDistribution courses={courses} />
                 <TopInstructors
                     staff={staff}
                     courses={courses}
@@ -210,55 +209,6 @@ function PopularCourses({ courses, enrollments }: PopularCoursesProps) {
                     ))}
                 </ul>
             )}
-        </div>
-    )
-}
-
-interface CourseLevelDistributionProps {
-    courses: Course[]
-}
-
-function CourseLevelDistribution({ courses }: CourseLevelDistributionProps) {
-    const getLevelPercentage = (level: string) => {
-        if (courses.length === 0) return 0
-        return (courses.filter((c: Course) => c.level === level).length / courses.length) * 100
-    }
-
-    const getLevelCount = (level: string) => {
-        return courses.filter((c: Course) => c.level === level).length
-    }
-
-    return (
-        <div className="dashboard-card">
-            <h3><i className="bi bi-bar-chart me-2"></i>Course Levels</h3>
-            <div className="level-distribution">
-                <LevelBar level="Beginner" percentage={getLevelPercentage('Beginner')} count={getLevelCount('Beginner')} />
-                <LevelBar level="Intermediate" percentage={getLevelPercentage('Intermediate')} count={getLevelCount('Intermediate')} />
-                <LevelBar level="Advanced" percentage={getLevelPercentage('Advanced')} count={getLevelCount('Advanced')} />
-            </div>
-        </div>
-    )
-}
-
-interface LevelBarProps {
-    level: string
-    percentage: number
-    count: number
-}
-
-function LevelBar({ level, percentage, count }: LevelBarProps) {
-    return (
-        <div className="level-item">
-            <div className="level-bar-container">
-                <div
-                    className={`level-bar ${level.toLowerCase()}`}
-                    style={{ width: `${percentage}%` }}
-                ></div>
-            </div>
-            <div className="level-info">
-                <span className="level-name">{level}</span>
-                <span className="level-count">{count}</span>
-            </div>
         </div>
     )
 }

@@ -16,7 +16,6 @@ const defaultCourseForm: CourseFormData = {
     title: '',
     description: '',
     duration: '',
-    level: 'Beginner',
     price: '',
     image: '',
     videoUrl: ''
@@ -90,7 +89,6 @@ export function useStaffDashboard() {
             title: course.title,
             description: course.description,
             duration: course.duration,
-            level: course.level,
             price: course.price,
             image: course.image,
             videoUrl: course.videoUrl || ''

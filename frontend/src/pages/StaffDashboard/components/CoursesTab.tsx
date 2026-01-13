@@ -2,7 +2,7 @@ import { Button } from '../../../components/ui/button'
 import { SkeletonGrid } from '../../../components/ui/LoadingSpinner'
 import { ConnectionError, EmptyState } from '../../../components/ui/ErrorDisplay'
 import type { Course } from '../../../types'
-import { getId, getImageUrl, getLevelBadgeClass, PLACEHOLDER_IMAGE } from '../utils/helpers.ts'
+import { getId, getImageUrl, PLACEHOLDER_IMAGE } from '../utils/helpers.ts'
 
 interface CoursesTabProps {
     courses: Course[]
@@ -59,11 +59,6 @@ export default function CoursesTab({
                                     target.src = PLACEHOLDER_IMAGE
                                 }}
                             />
-                            <span
-                                className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white ${getLevelBadgeClass(course.level)}`}
-                            >
-                                {course.level}
-                            </span>
                         </div>
                         <div className="p-5">
                             <h3 className="text-gray-800 text-lg font-semibold mb-2">

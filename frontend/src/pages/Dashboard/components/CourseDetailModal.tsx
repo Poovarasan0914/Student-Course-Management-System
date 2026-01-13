@@ -39,19 +39,6 @@ export default function CourseDetailModal({
         }
     }, [])
 
-    const getBadgeColor = (level: string) => {
-        switch (level) {
-            case 'Beginner':
-                return 'bg-emerald-100 text-emerald-700'
-            case 'Intermediate':
-                return 'bg-amber-100 text-amber-700'
-            case 'Advanced':
-                return 'bg-red-100 text-red-700'
-            default:
-                return 'bg-emerald-100 text-emerald-700'
-        }
-    }
-
     // Sample course content/lessons
     const courseLessons = [
         { id: 1, title: 'Introduction to the Course', duration: '5:30', isPreview: true },
@@ -162,9 +149,6 @@ export default function CourseDetailModal({
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getBadgeColor(course.level)}`}>
-                        {course.level}
-                    </span>
                     <button
                         onClick={onClose}
                         className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition-colors"

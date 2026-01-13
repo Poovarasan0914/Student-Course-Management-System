@@ -32,7 +32,6 @@ export interface ICourse {
     instructor: string;
     instructorId?: Types.ObjectId;
     duration: string;
-    level: 'Beginner' | 'Intermediate' | 'Advanced';
     price: string;
     image: string;
     videoUrl?: string;
@@ -46,7 +45,6 @@ export interface IEnrollment {
     courseTitle: string;
     courseInstructor: string;
     coursePrice: string;
-    courseLevel: string;
     courseDuration: string;
     studentId: Types.ObjectId;
     studentName: string;

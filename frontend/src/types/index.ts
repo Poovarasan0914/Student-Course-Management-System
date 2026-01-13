@@ -54,7 +54,6 @@ export type Course = {
     instructor: string
     instructorId?: number | string
     duration: string
-    level: string
     price: string
     image: string
     videoUrl?: string
@@ -66,7 +65,6 @@ export type CourseFormData = {
     title: string
     description: string
     duration: string
-    level: string
     price: string
     image: string
     videoUrl: string
@@ -81,7 +79,6 @@ export type Enrollment = {
     courseTitle: string
     courseInstructor: string
     coursePrice: string
-    courseLevel: string
     courseDuration: string
     studentId: number | string
     studentName: string
