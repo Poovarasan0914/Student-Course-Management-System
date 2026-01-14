@@ -66,3 +66,18 @@ export {
     useCreateAdmin,
     useDeleteAdmin
 } from './useAdmins'
+
+// Message hooks
+export {
+    useCourseMessages,
+    useSendMessage,
+    useDeleteMessage
+} from './useMessages'
+
+// Material hooks
+export {
+    useCourseMaterials,
+    useUploadMaterial,
+    useDeleteMaterial,
+    downloadMaterial
+} from './useMaterials'

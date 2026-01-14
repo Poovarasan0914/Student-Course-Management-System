@@ -40,6 +40,15 @@ export const getAuthToken = (): string | null => {
     }
 
     // For student/dashboard pages or default, check student token first
+    // Check both 'currentStudent' (used by CourseHub) and 'currentUser'
+    const currentStudent = localStorage.getItem('currentStudent')
+    if (currentStudent) {
+        try {
+            const parsed = JSON.parse(currentStudent)
+            if (parsed.token) return parsed.token
+        } catch { /* ignore */ }
+    }
+
     const studentUser = localStorage.getItem('currentUser')
     if (studentUser) {
         try {

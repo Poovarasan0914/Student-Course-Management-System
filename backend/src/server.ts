@@ -10,6 +10,8 @@ import staffRoutes from './routes/staffRoutes';
 import studentRoutes from './routes/studentRoutes';
 import courseRoutes from './routes/courseRoutes';
 import enrollmentRoutes from './routes/enrollmentRoutes';
+import messageRoutes from './routes/messageRoutes';
+import materialRoutes from './routes/materialRoutes';
 
 dotenv.config();
 
@@ -27,6 +29,8 @@ app.use('/api/staff', staffRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/materials', materialRoutes);
 
 app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', message: 'Server is running' });

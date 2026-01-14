@@ -53,6 +53,31 @@ export interface IEnrollment {
     status: 'active' | 'completed' | 'cancelled';
 }
 
+// Message Types
+export interface IMessage {
+    courseId: Types.ObjectId;
+    senderId: Types.ObjectId;
+    senderName: string;
+    senderRole: 'staff' | 'student';
+    content: string;
+    messageType: 'text' | 'link';
+}
+
+// Material Types
+export interface IMaterial {
+    courseId: Types.ObjectId;
+    uploadedBy: Types.ObjectId;
+    uploadedByName: string;
+    title: string;
+    description?: string;
+    category: 'Lecture Notes' | 'Assignment' | 'Study Material' | 'Exam Preparation';
+    fileName: string;
+    fileType: string;
+    fileSize: number;
+    filePath: string;
+    fileUrl: string;
+}
+
 // Request Types
 export interface SignupRequest {
     firstName: string;

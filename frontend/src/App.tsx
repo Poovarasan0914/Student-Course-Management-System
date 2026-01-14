@@ -10,6 +10,8 @@ import StaffDashboard from './pages/StaffDashboard'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import ForgotPassword from './pages/ForgotPassword'
+import CourseHub from './pages/CourseHub'
+import StaffCourseHub from './pages/StaffCourseHub'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
@@ -28,6 +30,11 @@ function App() {
             <Dashboard />
           </ProtectedRoute>
         } />
+        <Route path="/course-hub" element={
+          <ProtectedRoute requiredRole="student" redirectTo="/login">
+            <CourseHub />
+          </ProtectedRoute>
+        } />
 
         {/* Staff Routes */}
         <Route path="/staff/signup" element={<StaffSignup />} />
@@ -36,6 +43,11 @@ function App() {
         <Route path="/staff/dashboard" element={
           <ProtectedRoute requiredRole="staff" redirectTo="/staff/login">
             <StaffDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/staff/course-hub" element={
+          <ProtectedRoute requiredRole="staff" redirectTo="/staff/login">
+            <StaffCourseHub />
           </ProtectedRoute>
         } />
 

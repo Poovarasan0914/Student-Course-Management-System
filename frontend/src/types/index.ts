@@ -87,6 +87,39 @@ export type Enrollment = {
     status: 'active' | 'completed' | 'cancelled'
 }
 
+// Message Types
+
+export type Message = {
+    _id: string
+    courseId: string
+    senderId: string
+    senderName: string
+    senderRole: 'staff' | 'student'
+    content: string
+    messageType: 'text' | 'link'
+    createdAt: string
+    updatedAt: string
+}
+
+// Course Material Types
+
+export type CourseMaterial = {
+    _id: string
+    courseId: string
+    uploadedBy: string
+    uploadedByName: string
+    title: string
+    description?: string
+    category: 'Lecture Notes' | 'Assignment' | 'Study Material' | 'Exam Preparation'
+    fileName: string
+    fileType: string
+    fileSize: number
+    filePath: string
+    fileUrl: string
+    createdAt: string
+    updatedAt: string
+}
+
 // Form Types
 
 export type SignupFormValues = {
