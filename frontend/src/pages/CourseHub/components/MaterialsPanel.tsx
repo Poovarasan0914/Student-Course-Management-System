@@ -68,29 +68,24 @@ export default function MaterialsPanel({ course, userRole }: MaterialsPanelProps
     return (
         <div className="materials-panel">
             <div className="materials-header">
-                <div>
-                    <h3><i className="bi bi-folder me-2"></i>{course.title} - Materials</h3>
-                    <p className="materials-subtitle">
-                        <i className="bi bi-file-earmark me-1"></i>
-                        Access course materials, notes, and resources
-                    </p>
-                </div>
+                <h3><i className="bi bi-folder me-2"></i>{course.title} - Materials</h3>
                 {userRole === 'staff' && (
                     <button
-                        className="upload-button"
+                        className="upload-btn"
                         onClick={() => setShowUploadModal(true)}
                     >
-                        <i className="bi bi-cloud-upload me-2"></i>Upload Material
+                        <i className="bi bi-cloud-upload"></i>
+                        <span>Upload Material</span>
                     </button>
                 )}
             </div>
 
             {/* Category Filter */}
-            <div className="category-filter">
+            <div className="view-toggle">
                 {categories.map((category) => (
                     <button
                         key={category}
-                        className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
+                        className={`toggle-btn ${selectedCategory === category ? 'active' : ''}`}
                         onClick={() => setSelectedCategory(category)}
                     >
                         {category === 'all' ? 'All' : category}

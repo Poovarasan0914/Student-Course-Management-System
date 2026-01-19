@@ -7,14 +7,12 @@ type AuthLayoutProps = {
     subtitle?: string
     badge?: {
         text: string
-        color: 'blue' | 'green' | 'red'
+        color: 'primary' | 'accent' | 'error'
     }
-    linear?: 'blue-green' | 'green-blue' | 'red-blue'
     footerLinks?: Array<{
         text: string
         linkText: string
         to: string
-        color?: 'blue' | 'green'
     }>
 }
 
@@ -23,59 +21,72 @@ export default function AuthLayout({
     title,
     subtitle,
     badge,
-    linear = 'blue-green',
     footerLinks = []
 }: AuthLayoutProps) {
-    const linearClasses = {
-        'blue-green': 'from-blue-50 via-white to-green-50',
-        'green-blue': 'from-green-50 via-white to-blue-50',
-        'red-blue': 'from-red-50 via-white to-blue-50'
-    }
-
-    const badgeColors = {
-        blue: 'bg-blue-600',
-        green: 'bg-green-600',
-        red: 'bg-red-600'
-    }
-
-    const linkColors = {
-        blue: 'text-blue-600 hover:text-blue-700',
-        green: 'text-green-600 hover:text-green-700'
+    const badgeStyles = {
+        primary: 'bg-primary',
+        accent: 'bg-accent',
+        error: 'bg-error'
     }
 
     return (
-        <div className={`min-h-screen flex items-center justify-center bg-linear-to-br ${linearClasses[linear]} p-4`}>
-            <div className="w-full max-w-md bg-white rounded-2xl p-10 shadow-xl border border-gray-100">
-                {badge && (
-                    <div className="text-center mb-4">
-                        <span className={`inline-block px-4 py-1 ${badgeColors[badge.color]} text-white text-sm font-semibold rounded-full`}>
-                            {badge.text}
-                        </span>
+        <div className="min-h-screen flex items-center justify-center bg-bg p-4">
+            <div className="w-full max-w-md">
+                {/* Logo/Brand */}
+                <div className="text-center mb-8">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-4">
+                        <i className="bi bi-mortarboard-fill text-3xl text-white"></i>
                     </div>
-                )}
+                    <h1 className="text-xl font-bold text-text">SCMS</h1>
+                </div>
 
-                <h2 className="text-2xl font-bold text-center mb-2 text-gray-800">{title}</h2>
-                {subtitle && (
-                    <p className="text-center text-gray-500 text-sm mb-6">{subtitle}</p>
-                )}
+                {/* Card */}
+                <div className="bg-surface rounded-2xl p-8 shadow-md border border-border relative">
+                    {/* Close Button */}
+                    <Link
+                        to="/"
+                        className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-xl bg-bg hover:bg-surface-hover border border-border text-text-muted hover:text-text transition-colors"
+                        title="Go to Home"
+                    >
+                        <i className="bi bi-x-lg"></i>
+                    </Link>
 
-                {children}
+                    {badge && (
+                        <div className="text-center mb-6">
+                            <span className={`inline-block px-4 py-1.5 ${badgeStyles[badge.color]} text-white text-sm font-medium rounded-full`}>
+                                {badge.text}
+                            </span>
+                        </div>
+                    )}
 
-                {footerLinks.length > 0 && (
-                    <div className="mt-6 space-y-2">
-                        {footerLinks.map((link, index) => (
-                            <p key={index} className="text-center text-sm text-gray-500">
-                                {link.text}{' '}
-                                <Link
-                                    to={link.to}
-                                    className={`font-semibold ${linkColors[link.color || 'blue']}`}
-                                >
-                                    {link.linkText}
-                                </Link>
-                            </p>
-                        ))}
-                    </div>
-                )}
+                    <h2 className="text-2xl font-semibold text-center mb-2 text-text">{title}</h2>
+                    {subtitle && (
+                        <p className="text-center text-text-secondary text-sm mb-8">{subtitle}</p>
+                    )}
+
+                    {children}
+
+                    {footerLinks.length > 0 && (
+                        <div className="mt-8 space-y-3">
+                            {footerLinks.map((link, index) => (
+                                <p key={index} className="text-center text-sm text-text-secondary">
+                                    {link.text}{' '}
+                                    <Link
+                                        to={link.to}
+                                        className="font-semibold text-primary hover:text-primary-hover"
+                                    >
+                                        {link.linkText}
+                                    </Link>
+                                </p>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                {/* Footer */}
+                <p className="text-center text-xs text-text-muted mt-6">
+                    © 2026 Student Course Management System
+                </p>
             </div>
         </div>
     )

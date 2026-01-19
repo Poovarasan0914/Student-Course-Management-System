@@ -1,4 +1,3 @@
-import { Button } from '../../../components/ui/button'
 import type { Staff } from '../../../types'
 
 interface StaffHeaderProps {
@@ -8,20 +7,51 @@ interface StaffHeaderProps {
 
 export default function StaffHeader({ staff, onLogout }: StaffHeaderProps) {
     return (
-        <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">
-            <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Staff Dashboard</h1>
+        <header className="sticky top-0 z-30 bg-surface border-b border-border">
+            <div className="flex justify-between items-center px-6 py-4">
+                <div className="lg:pl-0 pl-12">
+                    <h1 className="text-xl font-semibold text-text">
+                        Instructor Dashboard
+                    </h1>
                     {staff && (
-                        <span className="text-gray-500 text-sm">
-                            <i className="bi bi-person-circle me-1"></i>
-                            {staff.firstName} {staff.lastName} | {staff.specialization}
-                        </span>
+                        <p className="text-sm text-text-secondary">
+                            {staff.firstName} {staff.lastName} · {staff.specialization}
+                        </p>
                     )}
                 </div>
-                <Button onClick={onLogout} variant="destructive">
-                    Logout
-                </Button>
+                <div className="flex items-center gap-4">
+                    {/* Course Hub Link */}
+                    <a
+                        href="/staff/course-hub"
+                        className="hidden sm:flex items-center gap-2 px-4 py-2.5 text-primary hover:bg-primary-light rounded-xl transition-colors no-underline font-medium"
+                    >
+                        <i className="bi bi-chat-dots"></i>
+                        <span className="text-sm">Course Hub</span>
+                    </a>
+
+                    {/* User */}
+                    <div className="hidden sm:flex items-center gap-3 px-3 py-2 bg-bg rounded-xl">
+                        <div className="w-9 h-9 bg-accent rounded-xl flex items-center justify-center">
+                            <span className="text-white text-sm font-semibold">
+                                {staff?.firstName?.charAt(0)}
+                            </span>
+                        </div>
+                        <div className="hidden lg:block">
+                            <p className="text-sm font-medium text-text">
+                                {staff?.firstName}
+                            </p>
+                            <p className="text-xs text-text-muted">Instructor</p>
+                        </div>
+                    </div>
+
+                    <button
+                        className="px-4 py-2.5 bg-surface text-text-secondary font-medium rounded-xl border border-border hover:bg-surface-hover hover:text-text transition-all flex items-center gap-2"
+                        onClick={onLogout}
+                    >
+                        <i className="bi bi-box-arrow-right"></i>
+                        <span className="hidden sm:inline">Logout</span>
+                    </button>
+                </div>
             </div>
         </header>
     )

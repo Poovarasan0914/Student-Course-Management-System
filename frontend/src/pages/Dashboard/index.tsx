@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useStudentDashboard } from './hooks/useStudentDashboard'
 import Toast from '../../components/ui/Toast'
 import {
@@ -7,6 +7,7 @@ import {
     CourseDetailModal
 } from './components'
 import type { Course } from '../../types'
+import { getId } from '../../utils/helpers'
 
 export default function Dashboard() {
     const {
@@ -31,6 +32,18 @@ export default function Dashboard() {
     } = useStudentDashboard()
 
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
+    const [courseFilter, setCourseFilter] = useState<'all' | 'enrolled'>('all')
+
+    // Filter courses based on selection
+    const filteredCourses = useMemo(() => {
+        if (courseFilter === 'enrolled') {
+            const enrolledCourseIds = enrollments.map((e: { courseId: string | number }) => String(e.courseId))
+            return courses.filter((course: Course) =>
+                enrolledCourseIds.includes(String(getId(course)))
+            )
+        }
+        return courses
+    }, [courses, enrollments, courseFilter])
 
     const handleCourseClick = (course: Course) => {
         setSelectedCourse(course)
@@ -48,9 +61,18 @@ export default function Dashboard() {
         handleUnenroll(course)
     }
 
+    const handleFilterChange = (filter: 'all' | 'enrolled') => {
+        setCourseFilter(filter)
+    }
+
     return (
-        <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-green-50">
-            <StudentHeader user={user} onLogout={handleLogout} />
+        <div className="min-h-screen bg-bg">
+            <StudentHeader
+                user={user}
+                onLogout={handleLogout}
+                onFilterChange={handleFilterChange}
+                currentFilter={courseFilter}
+            />
 
             {enrollmentMessage && (
                 <Toast
@@ -62,22 +84,57 @@ export default function Dashboard() {
             <main className="px-6 py-8 max-w-7xl mx-auto">
                 <section>
                     <div className="flex justify-between items-center mb-8">
-                        <h2 className="text-3xl font-bold text-gray-800">Available Courses</h2>
-                        {enrollments.length > 0 && (
-                            <span className="text-gray-500 text-lg">
-                                {enrollments.length} course{enrollments.length !== 1 ? 's' : ''} enrolled
-                            </span>
+                        <div>
+                            <h2 className="text-2xl font-semibold text-text">
+                                {courseFilter === 'enrolled' ? 'My Enrolled Courses' : 'Available Courses'}
+                            </h2>
+                            <p className="text-text-secondary text-sm mt-1">
+                                {courseFilter === 'enrolled'
+                                    ? `You are enrolled in ${filteredCourses.length} course${filteredCourses.length !== 1 ? 's' : ''}`
+                                    : `${courses.length} courses available • ${enrollments.length} enrolled`
+                                }
+                            </p>
+                        </div>
+                        {enrollments.length > 0 && courseFilter === 'all' && (
+                            <button
+                                onClick={() => setCourseFilter('enrolled')}
+                                className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-primary-light text-primary rounded-xl font-medium hover:bg-primary hover:text-white transition-colors"
+                            >
+                                <i className="bi bi-collection"></i>
+                                <span>View My Courses ({enrollments.length})</span>
+                            </button>
                         )}
                     </div>
-                    <CoursesGrid
-                        courses={courses}
-                        isLoading={isLoading}
-                        error={fetchError}
-                        enrollingCourseId={enrollingCourseId}
-                        checkIsEnrolled={checkIsEnrolled}
-                        onEnroll={handleEnroll}
-                        onCourseClick={handleCourseClick}
-                    />
+
+                    {/* Empty State for Enrolled Filter */}
+                    {courseFilter === 'enrolled' && filteredCourses.length === 0 && !isLoading ? (
+                        <div className="text-center py-16">
+                            <div className="w-20 h-20 bg-primary-light rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                <i className="bi bi-book text-4xl text-primary"></i>
+                            </div>
+                            <h3 className="text-xl font-semibold text-text mb-2">No Enrolled Courses Yet</h3>
+                            <p className="text-text-secondary mb-6 max-w-md mx-auto">
+                                You haven't enrolled in any courses. Browse available courses and start learning today!
+                            </p>
+                            <button
+                                onClick={() => setCourseFilter('all')}
+                                className="px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-hover transition-colors"
+                            >
+                                <i className="bi bi-search me-2"></i>
+                                Browse All Courses
+                            </button>
+                        </div>
+                    ) : (
+                        <CoursesGrid
+                            courses={filteredCourses}
+                            isLoading={isLoading}
+                            error={fetchError}
+                            enrollingCourseId={enrollingCourseId}
+                            checkIsEnrolled={checkIsEnrolled}
+                            onEnroll={handleEnroll}
+                            onCourseClick={handleCourseClick}
+                        />
+                    )}
                 </section>
             </main>
 

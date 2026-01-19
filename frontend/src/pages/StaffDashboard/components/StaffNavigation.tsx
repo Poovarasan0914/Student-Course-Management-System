@@ -41,7 +41,7 @@ export default function StaffNavigation({
                     <i className="bi bi-people me-1"></i>Enrolled Students ({enrollmentsCount})
                 </button>
                 <button
-                    className="px-6 py-2 rounded-lg font-semibold transition-all bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-sm"
+                    className="px-6 py-2 rounded-lg font-semibold transition-all bg-linear-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-sm"
                     onClick={() => navigate('/staff/course-hub')}
                 >
                     <i className="bi bi-chat-dots me-1"></i>Course Hub

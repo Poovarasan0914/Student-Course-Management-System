@@ -50,11 +50,10 @@ export default function AdminLogin() {
         <AuthLayout
             title="Admin Sign In"
             subtitle="Access the administration dashboard"
-            badge={{ text: "Admin Portal", color: "red" }}
-            linear="red-blue"
+            badge={{ text: "Admin Portal", color: "primary" }}
             footerLinks={[
-                { text: "", linkText: "Student Login", to: "/login", color: "blue" },
-                { text: "", linkText: "Staff Login", to: "/staff/login", color: "green" }
+                { text: "", linkText: "← Student Login", to: "/login" },
+                { text: "", linkText: "Staff Login →", to: "/staff/login" }
             ]}
         >
             {successMessage && (
@@ -65,7 +64,7 @@ export default function AdminLogin() {
                 <ErrorAlert message={errorMessage} onDismiss={() => setErrorMessage('')} />
             )}
 
-            <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
                 <div>
                     <label className="form-label">Email</label>
                     <input
@@ -86,11 +85,11 @@ export default function AdminLogin() {
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center justify-between mb-2">
                         <label className="form-label mb-0">Password</label>
                         <Link
                             to="/forgot-password?type=admin"
-                            className="text-sm text-red-600 hover:text-red-800 hover:underline"
+                            className="text-sm text-primary hover:text-primary-hover"
                         >
                             Forgot Password?
                         </Link>
@@ -108,11 +107,10 @@ export default function AdminLogin() {
                     {errors.password && <InlineError message={errors.password.message || 'Invalid password'} />}
                 </div>
 
-                <SubmitButton isLoading={loginMutation.isPending} loadingText="Signing in..." color="red">
+                <SubmitButton isLoading={loginMutation.isPending} loadingText="Signing in...">
                     Sign in as Admin
                 </SubmitButton>
             </form>
         </AuthLayout>
     )
 }
-

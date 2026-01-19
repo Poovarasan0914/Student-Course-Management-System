@@ -50,10 +50,9 @@ export default function Login() {
         <AuthLayout
             title="Welcome Back"
             subtitle="Sign in to your account"
-            linear="blue-green"
             footerLinks={[
-                { text: "Don't have an account?", linkText: "Create one", to: "/signup", color: "blue" },
-                { text: "", linkText: "Staff Login", to: "/staff/login", color: "green" }
+                { text: "Don't have an account?", linkText: "Create one", to: "/signup" },
+                { text: "", linkText: "Staff Login →", to: "/staff/login" }
             ]}
         >
             {successMessage && (
@@ -64,7 +63,7 @@ export default function Login() {
                 <ErrorAlert message={errorMessage} onDismiss={() => setErrorMessage('')} />
             )}
 
-            <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
                 <div>
                     <label className="form-label">Email</label>
                     <input
@@ -85,11 +84,11 @@ export default function Login() {
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center justify-between mb-2">
                         <label className="form-label mb-0">Password</label>
                         <Link
                             to="/forgot-password?type=student"
-                            className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
+                            className="text-sm text-primary hover:text-primary-hover"
                         >
                             Forgot Password?
                         </Link>
@@ -107,7 +106,7 @@ export default function Login() {
                     {errors.password && <InlineError message={errors.password.message || 'Invalid password'} />}
                 </div>
 
-                <SubmitButton isLoading={loginMutation.isPending} loadingText="Signing in..." color="blue">
+                <SubmitButton isLoading={loginMutation.isPending} loadingText="Signing in...">
                     Sign in
                 </SubmitButton>
             </form>

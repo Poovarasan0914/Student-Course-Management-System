@@ -1,6 +1,45 @@
 @import "tailwindcss";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+/* ============================================
+   PROFESSIONAL UI THEME - SCMS
+   Strict Indigo/Slate Color System
+   ============================================ */
+
+@theme {
+  /* Primary - Indigo (Education-friendly) */
+  --color-primary: #4f46e5;
+  --color-primary-hover: #4338ca;
+  --color-primary-light: #eef2ff;
+  --color-primary-dark: #3730a3;
+
+  /* Background & Surface */
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f1f5f9;
+
+  /* Borders */
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
+
+  /* Text */
+  --color-text: #1e293b;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
+
+  /* Accent - Emerald (sparingly) */
+  --color-accent: #10b981;
+  --color-accent-light: #ecfdf5;
+
+  /* Status Colors */
+  --color-success: #059669;
+  --color-success-light: #ecfdf5;
+  --color-warning: #f59e0b;
+  --color-warning-light: #fffbeb;
+  --color-error: #dc2626;
+  --color-error-light: #fef2f2;
+}
+
 @layer base {
   * {
     @apply box-border;
@@ -11,188 +50,188 @@
   }
 
   body {
-    @apply m-0 min-h-screen bg-gray-50 text-gray-800 antialiased;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    @apply m-0 min-h-screen bg-bg text-text antialiased;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   a {
-    @apply font-semibold text-blue-600 no-underline hover:text-blue-700 transition-colors;
+    @apply text-primary font-medium no-underline hover:text-primary-hover transition-colors;
   }
 
   h1 {
-    @apply text-4xl font-semibold leading-tight text-gray-900;
+    @apply text-2xl font-semibold leading-tight text-text;
+  }
+
+  h2 {
+    @apply text-xl font-semibold text-text;
+  }
+
+  h3 {
+    @apply text-base font-semibold text-text;
   }
 
   button {
-    @apply rounded-lg border border-transparent px-4 py-2 font-semibold cursor-pointer transition-all duration-200;
+    @apply rounded-lg border border-transparent px-4 py-2 font-medium cursor-pointer transition-all duration-200;
   }
 
   input,
   textarea,
   select {
     font-family: inherit;
+    font-size: inherit;
   }
 }
 
 @layer components {
+
+  /* ============================================
+     BUTTONS - Indigo Primary
+     ============================================ */
   .btn-primary {
-    @apply px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 shadow-sm hover:shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply px-5 py-2.5 bg-primary text-white font-medium rounded-lg shadow-sm hover:bg-primary-hover hover:shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
-    @apply px-6 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply px-5 py-2.5 bg-surface text-text font-medium rounded-lg border border-border hover:bg-surface-hover transition-all disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-success {
-    @apply px-6 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 shadow-sm hover:shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply px-5 py-2.5 bg-success text-white font-medium rounded-lg shadow-sm hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-danger {
-    @apply px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 shadow-sm hover:shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply px-5 py-2.5 bg-error text-white font-medium rounded-lg shadow-sm hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
+  .btn-ghost {
+    @apply px-5 py-2.5 bg-transparent text-text-secondary font-medium rounded-lg hover:bg-surface-hover transition-colors;
+  }
+
+  .btn-outline {
+    @apply px-5 py-2.5 bg-transparent text-primary font-medium rounded-lg border border-primary hover:bg-primary-light transition-all;
+  }
+
+  /* ============================================
+     FORM ELEMENTS - Clean & Rounded
+     ============================================ */
   .form-input {
-    @apply w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-800 placeholder-gray-400 transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none;
+    @apply w-full rounded-lg bg-surface px-4 py-3 border border-border text-text placeholder-text-muted transition-all focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none;
   }
 
   .form-input.error {
-    @apply border-red-500 bg-red-50 focus:ring-red-100;
+    @apply border-error bg-error-light focus:ring-error/10;
   }
 
   .form-label {
-    @apply block text-sm font-semibold text-gray-700 mb-1.5;
+    @apply block text-sm font-medium text-text mb-2;
   }
 
+  .form-helper {
+    @apply text-xs text-text-muted mt-1;
+  }
+
+  /* ============================================
+     CARDS - Rounded XL, Soft Shadow
+     ============================================ */
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow;
+    @apply bg-surface rounded-xl border border-border shadow-sm overflow-hidden;
   }
 
-  .glass-effect {
-    @apply bg-white shadow-xl border border-gray-100;
+  .card-hover {
+    @apply bg-surface rounded-xl border border-border shadow-sm overflow-hidden hover:shadow-md hover:border-border transition-all duration-200;
   }
 
-  /* Admin Dashboard Styles */
+  .card-header {
+    @apply px-6 py-4 border-b border-border;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  /* ============================================
+     STAT CARDS - Dashboard
+     ============================================ */
+  .stat-card {
+    @apply bg-surface rounded-xl p-6 border border-border shadow-sm;
+  }
+
+  .stat-card-icon {
+    @apply w-12 h-12 rounded-xl flex items-center justify-center text-xl;
+  }
+
+  .stat-card-value {
+    @apply text-3xl font-bold text-text mt-4;
+  }
+
+  .stat-card-label {
+    @apply text-sm text-text-secondary mt-1;
+  }
+
+  /* ============================================
+     DASHBOARD LAYOUT
+     ============================================ */
   .dashboard-grid {
-    @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6;
   }
 
-  .dashboard-card {
-    @apply bg-white rounded-xl p-6 border border-gray-100 shadow-sm;
+  .dashboard-section {
+    @apply bg-surface rounded-xl p-6 border border-border shadow-sm;
   }
 
-  .dashboard-card h3 {
-    @apply text-lg font-bold text-gray-800 mb-4;
+  .dashboard-section-title {
+    @apply text-lg font-semibold text-text mb-4;
   }
 
-  .recent-list {
-    @apply space-y-3;
+  /* ============================================
+     LISTS - Clean Spacing
+     ============================================ */
+  .list-item {
+    @apply flex items-center justify-between py-4 border-b border-border last:border-0;
   }
 
-  .recent-item {
-    @apply flex justify-between items-center py-2 border-b border-gray-100 last:border-0;
+  .list-item-title {
+    @apply text-sm font-medium text-text;
   }
 
-  .recent-item-info {
-    @apply flex flex-col;
+  .list-item-subtitle {
+    @apply text-xs text-text-muted mt-0.5;
   }
 
-  .recent-item-title {
-    @apply font-medium text-gray-800;
+  /* ============================================
+     BADGES
+     ============================================ */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium;
   }
 
-  .recent-item-sub {
-    @apply text-sm text-gray-500;
+  .badge-primary {
+    @apply bg-primary-light text-primary;
   }
 
-  .recent-item-date {
-    @apply text-sm text-gray-400;
+  .badge-success {
+    @apply bg-success-light text-success;
   }
 
-  .enrollment-badge,
-  .course-badge {
-    @apply px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium;
+  .badge-warning {
+    @apply bg-warning-light text-warning;
   }
 
-  .no-data-small {
-    @apply text-gray-400 text-center py-4;
+  .badge-error {
+    @apply bg-error-light text-error;
   }
 
-  .no-data {
-    @apply text-gray-400 text-center py-8;
+  .badge-neutral {
+    @apply bg-surface-hover text-text-secondary;
   }
 
-  .level-distribution {
-    @apply space-y-4;
-  }
-
-  .level-item {
-    @apply space-y-1;
-  }
-
-  .level-bar-container {
-    @apply h-2 bg-gray-100 rounded-full overflow-hidden;
-  }
-
-  .level-bar {
-    @apply h-full rounded-full transition-all;
-  }
-
-  .level-bar.beginner {
-    @apply bg-green-500;
-  }
-
-  .level-bar.intermediate {
-    @apply bg-amber-500;
-  }
-
-  .level-bar.advanced {
-    @apply bg-red-500;
-  }
-
-  .level-info {
-    @apply flex justify-between text-sm;
-  }
-
-  .level-name {
-    @apply text-gray-600;
-  }
-
-  .level-count {
-    @apply font-medium text-gray-800;
-  }
-
-  /* Tab Content */
-  .tab-content {
-    @apply space-y-6;
-  }
-
-  .tab-header {
-    @apply flex flex-wrap justify-between items-center gap-4;
-  }
-
-  .tab-header h2 {
-    @apply text-2xl font-bold text-gray-800;
-  }
-
-  .search-filter {
-    @apply flex flex-wrap gap-3;
-  }
-
-  .search-input {
-    @apply px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none;
-  }
-
-  .filter-select {
-    @apply px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none;
-  }
-
-  .add-btn {
-    @apply px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-all shadow-sm;
-  }
-
-  /* Tables */
+  /* ============================================
+     TABLES - Sticky Headers, Clean
+     ============================================ */
   .table-container {
-    @apply bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden;
+    @apply bg-surface rounded-xl border border-border shadow-sm overflow-hidden;
   }
 
   .data-table {
@@ -200,136 +239,388 @@
   }
 
   .data-table thead {
-    @apply bg-gray-50 border-b border-gray-200;
+    @apply bg-bg sticky top-0 z-10;
   }
 
   .data-table th {
-    @apply px-6 py-4 text-left font-semibold text-gray-600;
+    @apply px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider border-b border-border;
   }
 
   .data-table td {
-    @apply px-6 py-4 text-gray-700 border-b border-gray-100;
+    @apply px-6 py-4 text-text;
+  }
+
+  .data-table tbody tr {
+    @apply border-b border-border-light last:border-0;
+  }
+
+  .data-table tbody tr:nth-child(even) {
+    @apply bg-bg/50;
   }
 
   .data-table tbody tr:hover {
-    @apply bg-gray-50;
+    @apply bg-surface-hover;
+  }
+
+  /* ============================================
+     ACTION BUTTONS (Table)
+     ============================================ */
+  .action-btn {
+    @apply p-2 rounded-lg transition-colors;
+  }
+
+  .action-btn-edit {
+    @apply text-primary hover:bg-primary-light;
+  }
+
+  .action-btn-delete {
+    @apply text-error hover:bg-error-light;
   }
 
   .delete-btn {
-    @apply px-3 py-1.5 bg-red-600 text-white text-xs font-semibold rounded-lg hover:bg-red-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply px-3 py-1.5 bg-error text-white text-xs font-medium rounded-lg hover:brightness-110 transition-all disabled:opacity-50;
   }
 
   .edit-btn {
-    @apply px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-all;
+    @apply px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:bg-primary-hover transition-colors;
   }
 
-  /* Courses Grid */
+  /* ============================================
+     COURSE CARDS
+     ============================================ */
   .courses-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
   }
 
+  .course-card {
+    @apply bg-surface rounded-xl border border-border shadow-sm overflow-hidden hover:shadow-md hover:border-primary/30 transition-all duration-200;
+  }
+
+  .course-card-image {
+    @apply w-full h-40 object-cover bg-bg;
+  }
+
+  .course-card-body {
+    @apply p-5;
+  }
+
+  .course-card-title {
+    @apply text-base font-semibold text-text line-clamp-2 mb-2;
+  }
+
+  .course-card-instructor {
+    @apply text-sm text-text-secondary mb-3;
+  }
+
+  .course-card-meta {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .course-card-tag {
+    @apply px-2 py-1 bg-bg text-text-secondary text-xs rounded-md;
+  }
+
+  /* Legacy course card support */
   .course-admin-card {
-    @apply bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow;
+    @apply bg-surface rounded-xl border border-border shadow-sm overflow-hidden hover:shadow-md transition-all duration-200;
   }
 
   .course-admin-card .course-image {
-    @apply w-full h-40 object-cover;
+    @apply w-full h-40 object-cover bg-bg;
   }
 
   .course-admin-card .course-info {
-    @apply p-4 space-y-2;
+    @apply p-5 space-y-2;
   }
 
   .course-admin-card h3 {
-    @apply text-lg font-semibold text-gray-800;
+    @apply text-sm font-semibold text-text line-clamp-2;
   }
 
   .course-admin-card .instructor {
-    @apply text-sm text-blue-600;
+    @apply text-xs text-text-secondary;
   }
 
   .course-admin-card .description {
-    @apply text-sm text-gray-500 line-clamp-2;
+    @apply text-xs text-text-muted line-clamp-2;
   }
 
   .course-admin-card .course-meta {
-    @apply flex flex-wrap gap-2 text-xs text-gray-500;
+    @apply flex flex-wrap gap-2 text-xs;
   }
 
   .course-admin-card .duration,
   .course-admin-card .level,
   .course-admin-card .price {
-    @apply px-2 py-1 bg-gray-100 rounded;
-  }
-
-  .status-badge {
-    @apply inline-block px-2 py-1 rounded-full text-xs font-medium mt-2;
-  }
-
-  .status-badge.approved {
-    @apply bg-green-100 text-green-700;
-  }
-
-  .status-badge.pending {
-    @apply bg-amber-100 text-amber-700;
-  }
-
-  .status-badge.rejected {
-    @apply bg-red-100 text-red-700;
+    @apply px-2 py-1 bg-bg text-text-secondary rounded-md;
   }
 
   .course-admin-card .course-actions {
-    @apply flex gap-2 p-4 pt-0;
+    @apply flex gap-2 p-5 pt-0;
   }
 
-  /* Modals */
+  /* ============================================
+     STATUS BADGES
+     ============================================ */
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+
+  .status-badge.approved {
+    @apply bg-success-light text-success;
+  }
+
+  .status-badge.pending {
+    @apply bg-warning-light text-warning;
+  }
+
+  .status-badge.rejected {
+    @apply bg-error-light text-error;
+  }
+
+  /* ============================================
+     MODALS
+     ============================================ */
   .modal-overlay {
-    @apply fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4;
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4;
   }
 
   .modal {
-    @apply bg-white rounded-2xl w-full max-w-md shadow-xl;
+    @apply bg-surface rounded-2xl w-full max-w-md shadow-xl;
   }
 
   .modal.modal-large {
     @apply max-w-2xl;
   }
 
+  .modal-header {
+    @apply flex items-center justify-between p-6 border-b border-border;
+  }
+
+  .modal-header h2 {
+    @apply text-lg font-semibold text-text;
+  }
+
   .modal h2 {
-    @apply text-xl font-bold text-gray-800 p-6 border-b border-gray-200;
+    @apply text-lg font-semibold text-text p-6 border-b border-border;
+  }
+
+  .modal-body {
+    @apply p-6;
   }
 
   .modal-form {
-    @apply p-6 space-y-4;
+    @apply p-6 space-y-5;
   }
 
-  .form-group {
-    @apply space-y-1.5;
-  }
-
-  .form-group label {
-    @apply block text-sm font-semibold text-gray-700;
-  }
-
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    @apply w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none;
-  }
-
-  .form-row {
-    @apply grid grid-cols-3 gap-4;
+  .modal-footer {
+    @apply flex justify-end gap-3 p-6 pt-0;
   }
 
   .modal-actions {
     @apply flex justify-end gap-3 p-6 pt-0;
   }
 
+  /* ============================================
+     FORM GROUPS
+     ============================================ */
+  .form-group {
+    @apply space-y-2;
+  }
+
+  .form-group label {
+    @apply block text-sm font-medium text-text;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    @apply w-full px-4 py-3 bg-surface border border-border rounded-lg text-text focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all;
+  }
+
+  .form-row {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+  }
+
   .cancel-btn {
-    @apply px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-all;
+    @apply px-5 py-2.5 bg-surface text-text font-medium rounded-lg border border-border hover:bg-surface-hover transition-colors;
   }
 
   .save-btn {
-    @apply px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-sm;
+    @apply px-5 py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-primary-hover transition-colors;
+  }
+
+  /* ============================================
+     SEARCH & FILTERS
+     ============================================ */
+  .search-container {
+    @apply flex flex-wrap gap-3;
+  }
+
+  .search-input {
+    @apply px-4 py-2.5 bg-surface border border-border rounded-lg text-text placeholder-text-muted min-w-[280px] focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all;
+  }
+
+  .filter-select {
+    @apply px-4 py-2.5 bg-surface border border-border rounded-lg text-text focus:border-primary focus:outline-none transition-all;
+  }
+
+  .add-btn {
+    @apply px-4 py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-primary-hover transition-colors inline-flex items-center gap-2;
+  }
+
+  .search-filter {
+    @apply flex flex-wrap gap-3;
+  }
+
+  /* ============================================
+     TAB NAVIGATION
+     ============================================ */
+  .tab-header {
+    @apply flex flex-wrap justify-between items-center gap-4 mb-6;
+  }
+
+  .tab-header h2 {
+    @apply text-xl font-semibold text-text;
+  }
+
+  .tab-content {
+    @apply space-y-6;
+  }
+
+  /* ============================================
+     LEVEL PROGRESS BARS
+     ============================================ */
+  .level-distribution {
+    @apply space-y-4;
+  }
+
+  .level-item {
+    @apply space-y-2;
+  }
+
+  .level-bar-container {
+    @apply h-2 bg-border rounded-full overflow-hidden;
+  }
+
+  .level-bar {
+    @apply h-full rounded-full transition-all;
+  }
+
+  .level-bar.beginner {
+    @apply bg-accent;
+  }
+
+  .level-bar.intermediate {
+    @apply bg-warning;
+  }
+
+  .level-bar.advanced {
+    @apply bg-primary;
+  }
+
+  .level-info {
+    @apply flex justify-between text-sm;
+  }
+
+  .level-name {
+    @apply text-text-secondary;
+  }
+
+  .level-count {
+    @apply font-medium text-text;
+  }
+
+  /* ============================================
+     RECENT LISTS
+     ============================================ */
+  .recent-list {
+    @apply space-y-0;
+  }
+
+  .recent-item {
+    @apply flex justify-between items-center py-4 border-b border-border last:border-0;
+  }
+
+  .recent-item-info {
+    @apply flex flex-col gap-0.5;
+  }
+
+  .recent-item-title {
+    @apply text-sm font-medium text-text;
+  }
+
+  .recent-item-sub {
+    @apply text-xs text-text-muted;
+  }
+
+  .recent-item-date {
+    @apply text-xs text-text-muted;
+  }
+
+  /* ============================================
+     LEGACY BADGE SUPPORT
+     ============================================ */
+  .enrollment-badge,
+  .course-badge {
+    @apply px-2.5 py-1 bg-primary-light text-primary rounded-full text-xs font-medium;
+  }
+
+  .no-data-small {
+    @apply text-text-muted text-center py-6 text-sm;
+  }
+
+  .no-data {
+    @apply text-text-muted text-center py-10;
+  }
+
+  /* ============================================
+     SIDEBAR SCROLLBAR
+     ============================================ */
+  .sidebar-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .sidebar-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .sidebar-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  /* ============================================
+     UTILITY CLASSES
+     ============================================ */
+  .text-muted {
+    @apply text-text-muted;
+  }
+
+  .bg-subtle {
+    @apply bg-bg;
+  }
+
+  .border-subtle {
+    @apply border-border;
+  }
+
+  .icon-box {
+    @apply w-10 h-10 rounded-xl flex items-center justify-center;
+  }
+
+  .icon-box-primary {
+    @apply bg-primary-light text-primary;
+  }
+
+  .icon-box-success {
+    @apply bg-success-light text-success;
+  }
+
+  .icon-box-warning {
+    @apply bg-warning-light text-warning;
+  }
+
+  .icon-box-error {
+    @apply bg-error-light text-error;
   }
 }

@@ -10,7 +10,7 @@ import {
 import type { Staff, Course, CourseFormData, ActionMessage } from '../../../types'
 import { getId } from '../utils/helpers.ts'
 
-export type StaffTabType = 'courses' | 'students'
+export type StaffTabType = 'courses' | 'students' | 'course-hub'
 
 const defaultCourseForm: CourseFormData = {
     title: '',

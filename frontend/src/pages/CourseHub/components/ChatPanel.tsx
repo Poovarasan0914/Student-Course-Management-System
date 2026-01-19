@@ -174,13 +174,16 @@ export default function ChatPanel({ course, currentUser, userRole: _userRole }: 
                 </div>
                 <button
                     type="submit"
-                    className="send-button"
+                    className="send-btn"
                     disabled={!messageInput.trim() || sendMessage.isPending}
                 >
                     {sendMessage.isPending ? (
                         <i className="bi bi-hourglass-split"></i>
                     ) : (
-                        <i className="bi bi-send-fill"></i>
+                        <>
+                            <span>Send</span>
+                            <i className="bi bi-send-fill"></i>
+                        </>
                     )}
                 </button>
             </form>

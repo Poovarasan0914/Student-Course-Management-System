@@ -48,13 +48,12 @@ export default function StaffLogin() {
 
     return (
         <AuthLayout
-            title="Staff Sign In"
-            subtitle="Access your instructor dashboard"
-            badge={{ text: "Staff Portal", color: "green" }}
-            linear="green-blue"
+            title="Instructor Sign In"
+            subtitle="Access your teaching dashboard"
+            badge={{ text: "Staff Portal", color: "accent" }}
             footerLinks={[
-                { text: "Don't have a staff account?", linkText: "Register as Staff", to: "/staff/signup", color: "green" },
-                { text: "", linkText: "Student Login", to: "/login", color: "blue" }
+                { text: "Don't have a staff account?", linkText: "Register as Staff", to: "/staff/signup" },
+                { text: "", linkText: "← Student Login", to: "/login" }
             ]}
         >
             {successMessage && (
@@ -65,7 +64,7 @@ export default function StaffLogin() {
                 <ErrorAlert message={errorMessage} onDismiss={() => setErrorMessage('')} />
             )}
 
-            <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
                 <div>
                     <label className="form-label">Email</label>
                     <input
@@ -86,11 +85,11 @@ export default function StaffLogin() {
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center justify-between mb-2">
                         <label className="form-label mb-0">Password</label>
                         <Link
                             to="/forgot-password?type=staff"
-                            className="text-sm text-green-600 hover:text-green-800 hover:underline"
+                            className="text-sm text-primary hover:text-primary-hover"
                         >
                             Forgot Password?
                         </Link>
@@ -108,7 +107,7 @@ export default function StaffLogin() {
                     {errors.password && <InlineError message={errors.password.message || 'Invalid password'} />}
                 </div>
 
-                <SubmitButton isLoading={loginMutation.isPending} loadingText="Signing in..." color="green">
+                <SubmitButton isLoading={loginMutation.isPending} loadingText="Signing in...">
                     Sign in as Staff
                 </SubmitButton>
             </form>

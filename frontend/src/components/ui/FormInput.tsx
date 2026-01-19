@@ -27,12 +27,12 @@ FormInput.displayName = 'FormInput'
 
 export default FormInput
 
-// Submit button with loading state
+// Submit button with loading state - unified indigo theme
 interface SubmitButtonProps {
     isLoading: boolean
     loadingText: string
     children: React.ReactNode
-    color?: 'blue' | 'green' | 'red'
+    variant?: 'primary' | 'accent'
     className?: string
 }
 
@@ -40,20 +40,19 @@ export function SubmitButton({
     isLoading,
     loadingText,
     children,
-    color = 'blue',
+    variant = 'primary',
     className = ''
 }: SubmitButtonProps) {
-    const colorClasses = {
-        blue: 'bg-blue-600 hover:bg-blue-700',
-        green: 'bg-green-600 hover:bg-green-700',
-        red: 'bg-red-600 hover:bg-red-700'
+    const variantClasses = {
+        primary: 'bg-primary hover:bg-primary-hover',
+        accent: 'bg-accent hover:brightness-110'
     }
 
     return (
         <button
             type="submit"
             disabled={isLoading}
-            className={`w-full mt-6 py-2.5 ${colorClasses[color]} text-white font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-sm hover:shadow-md ${className}`}
+            className={`w-full mt-6 py-3 ${variantClasses[variant]} text-white font-medium rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-sm hover:shadow-md ${className}`}
         >
             {isLoading ? (
                 <>
