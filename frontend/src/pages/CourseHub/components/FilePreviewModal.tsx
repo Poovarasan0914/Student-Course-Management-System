@@ -1,5 +1,7 @@
 import type { CourseMaterial } from '../../../types'
-import { API_URL } from '../../../hooks/api'
+
+// Base URL for file serving (without /api)
+const BASE_URL = 'http://localhost:5000'
 
 interface FilePreviewModalProps {
     material: CourseMaterial
@@ -10,10 +12,20 @@ export default function FilePreviewModal({ material, onClose }: FilePreviewModal
     const isPdf = material.fileType.includes('pdf')
     const isImage = material.fileType.includes('image')
 
-    // Construct the file URL
-    const fileUrl = material.fileUrl.startsWith('http')
-        ? material.fileUrl
-        : `${API_URL.replace('/api', '')}${material.fileUrl}`
+    // Construct the file URL properly
+    const getFileUrl = () => {
+        // If already a full URL, use it
+        if (material.fileUrl.startsWith('http')) {
+            return material.fileUrl
+        }
+        // Otherwise, prepend the base URL
+        // fileUrl is typically like "/uploads/materials/filename.pdf"
+        return `${BASE_URL}${material.fileUrl}`
+    }
+
+    const fileUrl = getFileUrl()
+    // For PDFs, add toolbar parameter
+    const previewUrl = isPdf ? `${fileUrl}#toolbar=1` : fileUrl
 
     return (
         <div className="modal-overlay preview-overlay" onClick={onClose}>
@@ -31,7 +43,7 @@ export default function FilePreviewModal({ material, onClose }: FilePreviewModal
                 <div className="preview-content">
                     {isPdf ? (
                         <iframe
-                            src={fileUrl}
+                            src={previewUrl}
                             title={material.title}
                             className="pdf-preview"
                         />
@@ -75,3 +87,4 @@ export default function FilePreviewModal({ material, onClose }: FilePreviewModal
         </div>
     )
 }
+

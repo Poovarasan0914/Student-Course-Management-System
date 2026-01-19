@@ -59,7 +59,7 @@ export const passwordResetEmailTemplate = (data: PasswordResetEmailData): string
                             <!-- OTP Code Box -->
                             <div style="text-align: center; margin: 30px 0;">
                                 <div style="display: inline-block; padding: 20px 40px; background: linear-linear(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
-                                    <span style="font-size: 36px; font-weight: 700; letter-spacing: 8px; color: #ffffff; font-family: 'Courier New', monospace;">
+                                    <span style="font-size: 36px; font-weight: 700; letter-spacing: 8px; color: #000000; font-family: 'Courier New', monospace;">
                                         ${resetCode}
                                     </span>
                                 </div>

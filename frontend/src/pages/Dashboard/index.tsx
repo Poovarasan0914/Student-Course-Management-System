@@ -33,17 +33,32 @@ export default function Dashboard() {
 
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
     const [courseFilter, setCourseFilter] = useState<'all' | 'enrolled'>('all')
+    const [searchQuery, setSearchQuery] = useState('')
 
-    // Filter courses based on selection
+    // Filter courses based on selection and search query
     const filteredCourses = useMemo(() => {
+        let result = courses
+
+        // Apply enrollment filter
         if (courseFilter === 'enrolled') {
             const enrolledCourseIds = enrollments.map((e: { courseId: string | number }) => String(e.courseId))
-            return courses.filter((course: Course) =>
+            result = result.filter((course: Course) =>
                 enrolledCourseIds.includes(String(getId(course)))
             )
         }
-        return courses
-    }, [courses, enrollments, courseFilter])
+
+        // Apply search filter
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase().trim()
+            result = result.filter((course: Course) =>
+                course.title.toLowerCase().includes(query) ||
+                course.instructor.toLowerCase().includes(query) ||
+                course.description?.toLowerCase().includes(query)
+            )
+        }
+
+        return result
+    }, [courses, enrollments, courseFilter, searchQuery])
 
     const handleCourseClick = (course: Course) => {
         setSelectedCourse(course)
@@ -65,6 +80,10 @@ export default function Dashboard() {
         setCourseFilter(filter)
     }
 
+    const handleSearchChange = (query: string) => {
+        setSearchQuery(query)
+    }
+
     return (
         <div className="min-h-screen bg-bg">
             <StudentHeader
@@ -72,6 +91,10 @@ export default function Dashboard() {
                 onLogout={handleLogout}
                 onFilterChange={handleFilterChange}
                 currentFilter={courseFilter}
+                courses={courses}
+                enrollments={enrollments}
+                searchQuery={searchQuery}
+                onSearchChange={handleSearchChange}
             />
 
             {enrollmentMessage && (
