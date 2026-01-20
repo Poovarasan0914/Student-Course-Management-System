@@ -12,20 +12,28 @@ export default function FilePreviewModal({ material, onClose }: FilePreviewModal
     const isPdf = material.fileType.includes('pdf')
     const isImage = material.fileType.includes('image')
 
-    // Construct the file URL properly
-    const getFileUrl = () => {
-        // If already a full URL, use it
+    // Get the material ID from fileUrl (/api/materials/download/:id)
+    const getMaterialId = () => {
+        const parts = material.fileUrl.split('/')
+        return parts[parts.length - 1]
+    }
+
+    // Construct the preview URL using /view/ route for inline display
+    const getPreviewUrl = () => {
+        const materialId = getMaterialId()
+        return `${BASE_URL}/api/materials/view/${materialId}`
+    }
+
+    // Construct the download URL 
+    const getDownloadUrl = () => {
         if (material.fileUrl.startsWith('http')) {
             return material.fileUrl
         }
-        // Otherwise, prepend the base URL
-        // fileUrl is typically like "/uploads/materials/filename.pdf"
         return `${BASE_URL}${material.fileUrl}`
     }
 
-    const fileUrl = getFileUrl()
-    // For PDFs, add toolbar parameter
-    const previewUrl = isPdf ? `${fileUrl}#toolbar=1` : fileUrl
+    const previewUrl = getPreviewUrl()
+    const downloadUrl = getDownloadUrl()
 
     return (
         <div className="modal-overlay preview-overlay" onClick={onClose}>
@@ -50,7 +58,7 @@ export default function FilePreviewModal({ material, onClose }: FilePreviewModal
                     ) : isImage ? (
                         <div className="image-preview-container">
                             <img
-                                src={fileUrl}
+                                src={previewUrl}
                                 alt={material.title}
                                 className="image-preview"
                             />
@@ -75,7 +83,7 @@ export default function FilePreviewModal({ material, onClose }: FilePreviewModal
                         </span>
                     </div>
                     <a
-                        href={fileUrl}
+                        href={downloadUrl}
                         download={material.fileName}
                         className="download-preview-btn"
                     >

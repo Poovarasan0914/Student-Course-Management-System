@@ -6,7 +6,8 @@ import {
     getMaterialsByCourse,
     uploadMaterial,
     deleteMaterial,
-    downloadMaterial
+    downloadMaterial,
+    viewMaterial
 } from '../controllers/materialController';
 import { protect, staffOnly } from '../middleware/authMiddleware';
 
@@ -35,7 +36,11 @@ const upload = multer({
     }
 });
 
-// All material routes require authentication
+// View material inline (public route - no auth required for iframe/img preview)
+// Note: This must be BEFORE the protect middleware
+router.get('/view/:materialId', viewMaterial as any);
+
+// All other material routes require authentication
 router.use(protect as any);
 
 // Download material (before /:courseId to avoid conflicts)
@@ -51,3 +56,4 @@ router.post('/:courseId', staffOnly as any, upload.single('file') as any, upload
 router.delete('/:materialId', deleteMaterial as any);
 
 export default router;
+

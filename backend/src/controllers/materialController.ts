@@ -37,6 +37,7 @@ export const uploadMaterial = async (req: AuthRequest, res: Response): Promise<v
             return;
         }
 
+        // Create material first to get the _id
         const material = await Material.create({
             courseId,
             uploadedBy: req.user?._id,
@@ -48,8 +49,12 @@ export const uploadMaterial = async (req: AuthRequest, res: Response): Promise<v
             fileType: req.file.mimetype,
             fileSize: req.file.size,
             filePath: req.file.path,
-            fileUrl: `/api/materials/download/${req.file.filename}`
+            fileUrl: '' // Placeholder, will be updated below
         });
+
+        // Update with correct fileUrl using the material's _id
+        material.fileUrl = `/api/materials/download/${material._id}`;
+        await material.save();
 
         res.status(201).json(material);
     } catch (error) {
@@ -104,6 +109,49 @@ export const downloadMaterial = async (req: AuthRequest, res: Response): Promise
         }
 
         res.download(material.filePath, material.fileName);
+    } catch (error) {
+        res.status(500).json({ message: (error as Error).message });
+    }
+};
+
+// View a material (inline - for preview in browser)
+export const viewMaterial = async (req: AuthRequest, res: Response): Promise<void> => {
+    try {
+        const { materialId } = req.params;
+
+        let material = null;
+
+        // Check if materialId is a valid MongoDB ObjectId
+        const isValidObjectId = /^[0-9a-fA-F]{24}$/.test(materialId);
+
+        if (isValidObjectId) {
+            // New format: materialId is a MongoDB ObjectId
+            material = await Material.findById(materialId);
+        } else {
+            // Old format: materialId is a filename (e.g., "1768843328625-495775674.pdf")
+            // Search by filePath containing the filename
+            material = await Material.findOne({
+                filePath: { $regex: materialId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') }
+            });
+        }
+
+        if (!material) {
+            res.status(404).json({ message: 'Material not found' });
+            return;
+        }
+
+        if (!fs.existsSync(material.filePath)) {
+            res.status(404).json({ message: 'File not found on server' });
+            return;
+        }
+
+        // Set content type and disposition for inline viewing
+        res.setHeader('Content-Type', material.fileType);
+        res.setHeader('Content-Disposition', `inline; filename="${material.fileName}"`);
+
+        // Stream the file
+        const fileStream = fs.createReadStream(material.filePath);
+        fileStream.pipe(res);
     } catch (error) {
         res.status(500).json({ message: (error as Error).message });
     }
