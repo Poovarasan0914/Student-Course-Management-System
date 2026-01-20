@@ -5,6 +5,7 @@ import type { Course, Staff } from '../../types'
 import { getId } from '../../utils/helpers'
 import ChatPanel from '../CourseHub/components/ChatPanel'
 import MaterialsPanel from '../CourseHub/components/MaterialsPanel'
+import CourseList from '../CourseHub/components/CourseList'
 import '../CourseHub/styles.css'
 
 export default function StaffCourseHub() {
@@ -47,7 +48,7 @@ export default function StaffCourseHub() {
     }
 
     return (
-        <div className="course-hub staff-course-hub">
+        <div className="course-hub">
             <div className="course-hub-header">
                 <button className="back-button" onClick={handleBack}>
                     <i className="bi bi-arrow-left"></i> Back to Dashboard
@@ -57,37 +58,12 @@ export default function StaffCourseHub() {
             </div>
 
             <div className="course-hub-container">
-                {/* Left: Course List */}
-                <div className="course-sidebar">
-                    <h3>My Courses ({courses.length})</h3>
-                    {courses.length === 0 ? (
-                        <div className="no-courses">
-                            <i className="bi bi-inbox"></i>
-                            <p>No courses assigned yet</p>
-                        </div>
-                    ) : (
-                        <div className="course-list">
-                            {courses.map((course: Course) => {
-                                const isSelected = selectedCourse && getId(course) === getId(selectedCourse)
-                                return (
-                                    <div
-                                        key={getId(course)}
-                                        className={`course-item ${isSelected ? 'selected' : ''}`}
-                                        onClick={() => handleCourseSelect(course)}
-                                    >
-                                        <div className="course-item-info">
-                                            <h4>{course.title}</h4>
-                                            <p className="instructor">
-                                                <i className="bi bi-people me-1"></i>
-                                                {course.students} students
-                                            </p>
-                                        </div>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    )}
-                </div>
+                {/* Left: Course List - Using shared component */}
+                <CourseList
+                    courses={courses}
+                    selectedCourse={selectedCourse}
+                    onCourseSelect={handleCourseSelect}
+                />
 
                 {/* Center & Right: Chat or Materials */}
                 {selectedCourse ? (
