@@ -49,8 +49,8 @@ export default function Signup() {
             setSuccessMessage('Account created successfully! Redirecting to login...')
             reset()
             setTimeout(() => navigate('/login'), 1500)
-        } catch (error: any) {
-            const serverMessage = error?.message || 'Unable to create account. Please try again.'
+        } catch (error: unknown) {
+            const serverMessage = error instanceof Error ? error.message : 'Unable to create account. Please try again.'
             setErrorMessage(serverMessage)
         }
     }
@@ -58,10 +58,9 @@ export default function Signup() {
     return (
         <AuthLayout
             title="Create an account"
-            linear="blue-green"
             footerLinks={[
-                { text: "Already have an account?", linkText: "Sign in", to: "/login", color: "blue" },
-                { text: "", linkText: "Register as Staff", to: "/staff/signup", color: "green" }
+                { text: "Already have an account?", linkText: "Sign in", to: "/login" },
+                { text: "", linkText: "Register as Staff", to: "/staff/signup" }
             ]}
         >
             {successMessage && (
@@ -164,7 +163,7 @@ export default function Signup() {
                 </div>
                 {errors.acceptTerms && <InlineError message={errors.acceptTerms.message || 'Required'} />}
 
-                <SubmitButton isLoading={createSignupMutation.isPending} loadingText="Creating account..." color="blue">
+                <SubmitButton isLoading={createSignupMutation.isPending} loadingText="Creating account...">
                     Sign up
                 </SubmitButton>
             </form>

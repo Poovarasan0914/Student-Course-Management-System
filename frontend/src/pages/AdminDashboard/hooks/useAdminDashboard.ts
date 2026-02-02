@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
     useSignups,
@@ -38,16 +38,24 @@ export function useAdminDashboard() {
         password: '',
         role: 'admin' as const
     })
-    const [currentAdmin, setCurrentAdmin] = useState<Admin | null>(null)
 
-    useEffect(() => {
+    // Get currentAdmin from localStorage using useMemo to avoid setState in useEffect
+    const currentAdmin = useMemo<Admin | null>(() => {
         const adminData = localStorage.getItem('currentAdmin')
-        if (adminData) {
-            setCurrentAdmin(JSON.parse(adminData))
-        } else {
+        if (!adminData) return null
+        try {
+            return JSON.parse(adminData) as Admin
+        } catch {
+            return null
+        }
+    }, [])
+
+    // Redirect to login if no admin
+    useEffect(() => {
+        if (!currentAdmin) {
             navigate('/admin/login')
         }
-    }, [navigate])
+    }, [currentAdmin, navigate])
 
     // API hooks
     const { data: students = [], isLoading: studentsLoading, refetch: refetchStudents } = useSignups()

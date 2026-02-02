@@ -161,8 +161,8 @@ export default function StudentHeader({
 
     // Fetch notifications on mount and periodically
     useEffect(() => {
-        fetchNotifications()
-        const interval = setInterval(fetchNotifications, 30000) // Refresh every 30 seconds
+        void fetchNotifications()
+        const interval = setInterval(() => void fetchNotifications(), 30000) // Refresh every 30 seconds
         return () => clearInterval(interval)
     }, [fetchNotifications])
 

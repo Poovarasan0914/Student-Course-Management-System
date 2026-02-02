@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCourses, useStudentEnrollments } from '../../hooks/api'
 import type { Course, Student, Enrollment } from '../../types'
@@ -10,24 +10,32 @@ import './styles.css'
 
 export default function CourseHub() {
     const navigate = useNavigate()
-    const [student, setStudent] = useState<Student | null>(null)
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
     const [activeView, setActiveView] = useState<'chat' | 'materials'>('chat')
+
+    // Get student from localStorage using useMemo to avoid setState in useEffect
+    const student = useMemo<Student | null>(() => {
+        const currentStudent = localStorage.getItem('currentUser')
+        if (!currentStudent) return null
+        try {
+            return JSON.parse(currentStudent) as Student
+        } catch {
+            return null
+        }
+    }, [])
+
+    // Redirect to login if no student
+    useEffect(() => {
+        if (!student) {
+            navigate('/login')
+        }
+    }, [student, navigate])
 
     const studentId = getId(student)
     const { data: allCourses = [], isLoading: coursesLoading } = useCourses()
     const { data: enrollments = [], isLoading: enrollmentsLoading } = useStudentEnrollments(
         studentId ? String(studentId) : undefined
     )
-
-    useEffect(() => {
-        const currentStudent = localStorage.getItem('currentUser')
-        if (!currentStudent) {
-            navigate('/login')
-            return
-        }
-        setStudent(JSON.parse(currentStudent))
-    }, [navigate])
 
     const enrolledCourseIds = enrollments.map((e: Enrollment) => String(e.courseId))
     const enrolledCourses = allCourses.filter((course: Course) =>

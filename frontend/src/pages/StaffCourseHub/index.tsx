@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCoursesByInstructor } from '../../hooks/api'
 import type { Course, Staff } from '../../types'
@@ -10,23 +10,31 @@ import '../CourseHub/styles.css'
 
 export default function StaffCourseHub() {
     const navigate = useNavigate()
-    const [staff, setStaff] = useState<Staff | null>(null)
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
     const [activeView, setActiveView] = useState<'chat' | 'materials'>('chat')
+
+    // Get staff from localStorage using useMemo to avoid setState in useEffect
+    const staff = useMemo<Staff | null>(() => {
+        const currentStaff = localStorage.getItem('currentStaff')
+        if (!currentStaff) return null
+        try {
+            return JSON.parse(currentStaff) as Staff
+        } catch {
+            return null
+        }
+    }, [])
+
+    // Redirect to login if no staff
+    useEffect(() => {
+        if (!staff) {
+            navigate('/staff/login')
+        }
+    }, [staff, navigate])
 
     const staffId = getId(staff)
     const { data: courses = [], isLoading: coursesLoading } = useCoursesByInstructor(
         staffId ? String(staffId) : undefined
     )
-
-    useEffect(() => {
-        const currentStaff = localStorage.getItem('currentStaff')
-        if (!currentStaff) {
-            navigate('/staff/login')
-            return
-        }
-        setStaff(JSON.parse(currentStaff))
-    }, [navigate])
 
     const handleCourseSelect = (course: Course) => {
         setSelectedCourse(course)

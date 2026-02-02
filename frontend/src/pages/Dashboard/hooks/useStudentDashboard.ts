@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
     useCourses,
@@ -6,15 +6,32 @@ import {
     useCreateEnrollment,
     useDeleteEnrollment
 } from '../../../hooks/api'
-import type { Course, ActionMessage, Enrollment } from '../../../types'
+import type { Course, ActionMessage, Enrollment, Student } from '../../../types'
 import { getId, isEnrolledInCourse } from '../utils/helpers.ts'
 
 export function useStudentDashboard() {
     const navigate = useNavigate()
-    const [user, setUser] = useState<any>(null)
     const [enrollingCourseId, setEnrollingCourseId] = useState<string | number | null>(null)
     const [unenrollingCourseId, setUnenrollingCourseId] = useState<string | number | null>(null)
     const [enrollmentMessage, setEnrollmentMessage] = useState<ActionMessage | null>(null)
+
+    // Get user from localStorage using useMemo to avoid setState in useEffect
+    const user = useMemo<Student | null>(() => {
+        const currentUser = localStorage.getItem('currentUser')
+        if (!currentUser) return null
+        try {
+            return JSON.parse(currentUser) as Student
+        } catch {
+            return null
+        }
+    }, [])
+
+    // Redirect to login if no user
+    useEffect(() => {
+        if (!user) {
+            navigate('/login')
+        }
+    }, [user, navigate])
 
     const {
         data: courses = [],
@@ -29,15 +46,6 @@ export function useStudentDashboard() {
 
     const createEnrollmentMutation = useCreateEnrollment()
     const deleteEnrollmentMutation = useDeleteEnrollment()
-
-    useEffect(() => {
-        const currentUser = localStorage.getItem('currentUser')
-        if (!currentUser) {
-            navigate('/login')
-            return
-        }
-        setUser(JSON.parse(currentUser))
-    }, [navigate])
 
     useEffect(() => {
         if (enrollmentMessage) {

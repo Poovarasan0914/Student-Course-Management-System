@@ -27,13 +27,19 @@ export default function ProtectedRoute({ children, requiredRole, redirectTo }: P
         return <Navigate to={redirectTo} replace />
     }
 
+    // Validate that the stored data is valid JSON
+    let isValidData = false
     try {
-        // Validate that the stored data is valid JSON
         JSON.parse(userData)
-        return <>{children}</>
+        isValidData = true
     } catch {
-        // Invalid data, clear it and redirect
+        // Invalid data, clear it
         localStorage.removeItem(storageKey)
+    }
+
+    if (!isValidData) {
         return <Navigate to={redirectTo} replace />
     }
+
+    return <>{children}</>
 }

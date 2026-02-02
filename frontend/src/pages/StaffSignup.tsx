@@ -49,19 +49,19 @@ export default function StaffSignup() {
             setSuccessMessage('Staff account created successfully! Redirecting to login...')
             reset()
             setTimeout(() => navigate('/staff/login'), 1500)
-        } catch (error: any) {
-            setErrorMessage(error?.message || 'Unable to create account. Please check if the server is running and try again.')
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Unable to create account. Please check if the server is running and try again.'
+            setErrorMessage(errorMessage)
         }
     }
 
     return (
         <AuthLayout
             title="Create Staff Account"
-            badge={{ text: "Staff Portal", color: "green" }}
-            linear="green-blue"
+            badge={{ text: "Staff Portal", color: "accent" }}
             footerLinks={[
-                { text: "Already have a staff account?", linkText: "Sign in", to: "/staff/login", color: "green" },
-                { text: "", linkText: "Student Signup", to: "/signup", color: "blue" }
+                { text: "Already have a staff account?", linkText: "Sign in", to: "/staff/login" },
+                { text: "", linkText: "Student Signup", to: "/signup" }
             ]}
         >
             {successMessage && (
@@ -169,7 +169,7 @@ export default function StaffSignup() {
                     {errors.confirmPassword && <InlineError message={errors.confirmPassword.message || 'Passwords must match'} />}
                 </div>
 
-                <SubmitButton isLoading={createStaffMutation.isPending} loadingText="Creating Account..." color="green">
+                <SubmitButton isLoading={createStaffMutation.isPending} loadingText="Creating Account..." variant="accent">
                     Create Staff Account
                 </SubmitButton>
             </form>

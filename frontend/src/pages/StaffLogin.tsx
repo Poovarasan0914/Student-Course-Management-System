@@ -41,8 +41,9 @@ export default function StaffLogin() {
             setSuccessMessage('Login successful! Redirecting to dashboard...')
             localStorage.setItem('currentStaff', JSON.stringify(staffMember))
             setTimeout(() => navigate('/staff/dashboard'), 1000)
-        } catch (error: any) {
-            setErrorMessage(error.message || 'Invalid email or password. Please check your credentials and try again.')
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Invalid email or password. Please check your credentials and try again.'
+            setErrorMessage(errorMessage)
         }
     }
 

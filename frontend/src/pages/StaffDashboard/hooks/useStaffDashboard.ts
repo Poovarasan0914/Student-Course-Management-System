@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
     useCoursesByInstructor,
@@ -23,13 +23,30 @@ const defaultCourseForm: CourseFormData = {
 
 export function useStaffDashboard() {
     const navigate = useNavigate()
-    const [staff, setStaff] = useState<Staff | null>(null)
     const [activeTab, setActiveTab] = useState<StaffTabType>('courses')
     const [showCourseModal, setShowCourseModal] = useState(false)
     const [editingCourse, setEditingCourse] = useState<Course | null>(null)
     const [courseForm, setCourseForm] = useState<CourseFormData>(defaultCourseForm)
     const [actionMessage, setActionMessage] = useState<ActionMessage | null>(null)
     const [deleteConfirm, setDeleteConfirm] = useState<string | number | null>(null)
+
+    // Get staff from localStorage using useMemo to avoid setState in useEffect
+    const staff = useMemo<Staff | null>(() => {
+        const currentStaff = localStorage.getItem('currentStaff')
+        if (!currentStaff) return null
+        try {
+            return JSON.parse(currentStaff) as Staff
+        } catch {
+            return null
+        }
+    }, [])
+
+    // Redirect to login if no staff
+    useEffect(() => {
+        if (!staff) {
+            navigate('/staff/login')
+        }
+    }, [staff, navigate])
 
     const instructorName = staff ? `${staff.firstName} ${staff.lastName}` : ''
     const staffId = getId(staff)
@@ -55,15 +72,6 @@ export function useStaffDashboard() {
 
     const isLoading = coursesLoading || enrollmentsLoading
     const isSaving = createCourseMutation.isPending || updateCourseMutation.isPending
-
-    useEffect(() => {
-        const currentStaff = localStorage.getItem('currentStaff')
-        if (!currentStaff) {
-            navigate('/staff/login')
-            return
-        }
-        setStaff(JSON.parse(currentStaff))
-    }, [navigate])
 
     useEffect(() => {
         if (actionMessage) {

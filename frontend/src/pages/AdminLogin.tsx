@@ -41,8 +41,9 @@ export default function AdminLogin() {
             setSuccessMessage('Login successful! Redirecting to admin dashboard...')
             localStorage.setItem('currentAdmin', JSON.stringify(admin))
             setTimeout(() => navigate('/admin/dashboard'), 1000)
-        } catch (error: any) {
-            setErrorMessage(error.message || 'Invalid admin credentials. Please check your email and password.')
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Invalid admin credentials. Please check your email and password.'
+            setErrorMessage(errorMessage)
         }
     }
 

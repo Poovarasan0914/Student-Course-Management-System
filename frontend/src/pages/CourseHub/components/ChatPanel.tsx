@@ -10,7 +10,7 @@ interface ChatPanelProps {
     userRole: 'student' | 'staff'
 }
 
-export default function ChatPanel({ course, currentUser, userRole: _userRole }: ChatPanelProps) {
+export default function ChatPanel({ course, currentUser }: ChatPanelProps) {
     const [messageInput, setMessageInput] = useState('')
     const [showEmojiPicker, setShowEmojiPicker] = useState(false)
     const messagesEndRef = useRef<HTMLDivElement>(null)

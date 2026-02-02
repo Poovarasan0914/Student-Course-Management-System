@@ -24,29 +24,20 @@ const getUserTypeConfig = (userType: UserType) => {
         student: {
             title: 'Reset Password',
             subtitle: 'Student account recovery',
-            linear: 'blue-green' as const,
-            color: 'blue' as const,
-            linkColor: 'blue' as const,
             loginPath: '/login',
             loginText: 'Back to Student Login'
         },
         staff: {
             title: 'Reset Password',
             subtitle: 'Staff account recovery',
-            badge: { text: 'Staff Portal', color: 'green' as const },
-            linear: 'green-blue' as const,
-            color: 'green' as const,
-            linkColor: 'green' as const,
+            badge: { text: 'Staff Portal', color: 'accent' as const },
             loginPath: '/staff/login',
             loginText: 'Back to Staff Login'
         },
         admin: {
             title: 'Reset Password',
             subtitle: 'Admin account recovery',
-            badge: { text: 'Admin Portal', color: 'red' as const },
-            linear: 'red-blue' as const,
-            color: 'red' as const,
-            linkColor: 'blue' as const, // Footer link only supports blue/green
+            badge: { text: 'Admin Portal', color: 'error' as const },
             loginPath: '/admin/login',
             loginText: 'Back to Admin Login'
         }
@@ -99,8 +90,9 @@ export default function ForgotPassword() {
                 setStep('reset')
                 setSuccessMessage('')
             }, 2000)
-        } catch (error: any) {
-            setErrorMessage(error.message || 'Failed to send reset code. Please try again.')
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Failed to send reset code. Please try again.'
+            setErrorMessage(errorMessage)
         }
     }
 
@@ -123,8 +115,9 @@ export default function ForgotPassword() {
 
             setSuccessMessage('Password reset successful! Redirecting to login...')
             setTimeout(() => navigate(config.loginPath), 2000)
-        } catch (error: any) {
-            setErrorMessage(error.message || 'Invalid or expired reset code. Please try again.')
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Invalid or expired reset code. Please try again.'
+            setErrorMessage(errorMessage)
         }
     }
 
@@ -133,9 +126,8 @@ export default function ForgotPassword() {
             title={config.title}
             subtitle={config.subtitle}
             badge={'badge' in config ? config.badge : undefined}
-            linear={config.linear}
             footerLinks={[
-                { text: '', linkText: config.loginText, to: config.loginPath, color: config.linkColor }
+                { text: '', linkText: config.loginText, to: config.loginPath }
             ]}
         >
             {successMessage && (
@@ -184,7 +176,6 @@ export default function ForgotPassword() {
                         <SubmitButton
                             isLoading={forgotPasswordMutation.isPending}
                             loadingText="Sending code..."
-                            color={config.color}
                         >
                             Send Reset Code
                         </SubmitButton>
@@ -256,7 +247,7 @@ export default function ForgotPassword() {
                             <input
                                 {...resetForm.register('confirmPassword', {
                                     required: 'Please confirm your password',
-                                    validate: (value) => value === resetForm.watch('newPassword') || 'Passwords do not match'
+                                    validate: (value) => value === resetForm.getValues('newPassword') || 'Passwords do not match'
                                 })}
                                 type="password"
                                 placeholder="Confirm new password"
@@ -271,7 +262,6 @@ export default function ForgotPassword() {
                         <SubmitButton
                             isLoading={resetPasswordMutation.isPending}
                             loadingText="Resetting password..."
-                            color={config.color}
                         >
                             Reset Password
                         </SubmitButton>
