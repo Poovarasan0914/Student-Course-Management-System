@@ -42,7 +42,11 @@ Thumbs.db
 
 # Testing
 coverage/
+frontend/coverage/
+backend/coverage/
 .nyc_output/
+.vitest/
+backend/.vitest/
 
 # Misc
 *.local
